@@ -1,0 +1,16 @@
+{
+  "name": "@relay-radar/cli",
+  "version": "0.1.0",
+  "description": "CLI tool for relay station testing and ranking",
+  "type": "module",
+  "bin": {
+    "relay-radar": "./bin/relay-radar.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/**/*.test.mjs",
+    "lint": "echo 'lint ok'"
+  },
+  "dependencies": {
+    "@relay-radar/core": "workspace:*"
+  }
+}

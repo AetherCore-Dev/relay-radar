@@ -1,0 +1,18 @@
+{
+  "name": "@relay-radar/core",
+  "version": "0.1.0",
+  "description": "Core engine: relay probing, model verification, token analysis",
+  "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./prober": "./src/prober/index.mjs",
+    "./verifier": "./src/verifier/index.mjs",
+    "./analyzer": "./src/analyzer/index.mjs",
+    "./ranker": "./src/ranker/index.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/**/*.test.mjs",
+    "lint": "echo 'lint ok'"
+  }
+}

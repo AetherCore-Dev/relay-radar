@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+*.env
+*.env.local
+probe-results.json
+ranking-report.json
+.DS_Store
+Thumbs.db

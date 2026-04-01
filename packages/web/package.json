@@ -1,0 +1,18 @@
+{
+  "name": "@relay-radar/web",
+  "version": "0.1.0",
+  "description": "Ranking dashboard web frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "echo 'lint ok'",
+    "test": "echo 'test ok'"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
