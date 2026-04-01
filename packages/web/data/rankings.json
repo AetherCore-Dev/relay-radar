@@ -1,0 +1,255 @@
+{
+  "generatedAt": "2026-04-01T08:00:00Z",
+  "testServer": "Hong Kong (Alibaba Cloud)",
+  "methodology": "Each relay tested 5 rounds with 2 warmup, using claude-sonnet-4. Model verification uses 8-dimension fingerprint with 7 scorers.",
+  "relays": [
+    {
+      "id": "relay-alpha",
+      "name": "Alpha Relay",
+      "url": "alpha-relay.example.com",
+      "overallScore": 87,
+      "verdict": "🌟 推荐",
+      "dimensions": {
+        "latency": 92,
+        "stability": 88,
+        "pricing": 85,
+        "authenticity": 90,
+        "transparency": 75
+      },
+      "details": {
+        "avgLatencyMs": 340,
+        "p50LatencyMs": 310,
+        "p95LatencyMs": 680,
+        "ttftMs": 280,
+        "throughputTps": 35,
+        "errorRate7d": 0.8,
+        "uptimePercent": 99.2,
+        "supportsStreaming": true,
+        "modelsAvailable": ["claude-opus-4", "claude-sonnet-4", "claude-haiku-3.5"],
+        "pricingMultiplier": 1.25,
+        "pricingNote": "官方价125%，无隐藏收费",
+        "verificationVerdict": "authentic",
+        "verificationConfidence": 92,
+        "billingScore": 88,
+        "systemPromptInjection": false,
+        "hasStatusPage": true,
+        "hasRefundPolicy": true,
+        "publishesPricing": true
+      },
+      "pricing": {
+        "opus": { "input": 18.75, "output": 93.75, "note": "官方价125%" },
+        "sonnet": { "input": 3.75, "output": 18.75, "note": "官方价125%" },
+        "haiku": { "input": 1.00, "output": 5.00, "note": "官方价125%" }
+      },
+      "history": [
+        { "date": "2026-03-25", "score": 85, "latency": 360 },
+        { "date": "2026-03-26", "score": 86, "latency": 350 },
+        { "date": "2026-03-27", "score": 87, "latency": 340 },
+        { "date": "2026-03-28", "score": 86, "latency": 355 },
+        { "date": "2026-03-29", "score": 88, "latency": 330 },
+        { "date": "2026-03-30", "score": 87, "latency": 340 },
+        { "date": "2026-04-01", "score": 87, "latency": 340 }
+      ],
+      "tags": ["稳定", "透明定价", "模型齐全"],
+      "updatedAt": "2026-04-01T08:00:00Z"
+    },
+    {
+      "id": "relay-beta",
+      "name": "Beta Transit",
+      "url": "beta-transit.example.com",
+      "overallScore": 73,
+      "verdict": "👍 可用",
+      "dimensions": {
+        "latency": 78,
+        "stability": 80,
+        "pricing": 70,
+        "authenticity": 65,
+        "transparency": 60
+      },
+      "details": {
+        "avgLatencyMs": 520,
+        "p50LatencyMs": 480,
+        "p95LatencyMs": 1200,
+        "ttftMs": 450,
+        "throughputTps": 22,
+        "errorRate7d": 3.2,
+        "uptimePercent": 96.8,
+        "supportsStreaming": true,
+        "modelsAvailable": ["claude-opus-4", "claude-sonnet-4"],
+        "pricingMultiplier": 1.50,
+        "pricingNote": "官方价150%，高峰期有额外加价",
+        "verificationVerdict": "likely_authentic",
+        "verificationConfidence": 68,
+        "billingScore": 65,
+        "systemPromptInjection": false,
+        "hasStatusPage": false,
+        "hasRefundPolicy": true,
+        "publishesPricing": true
+      },
+      "pricing": {
+        "opus": { "input": 22.50, "output": 112.50, "note": "官方价150%" },
+        "sonnet": { "input": 4.50, "output": 22.50, "note": "官方价150%" }
+      },
+      "history": [
+        { "date": "2026-03-25", "score": 70, "latency": 550 },
+        { "date": "2026-03-26", "score": 72, "latency": 530 },
+        { "date": "2026-03-27", "score": 71, "latency": 540 },
+        { "date": "2026-03-28", "score": 73, "latency": 520 },
+        { "date": "2026-03-29", "score": 74, "latency": 510 },
+        { "date": "2026-03-30", "score": 72, "latency": 530 },
+        { "date": "2026-04-01", "score": 73, "latency": 520 }
+      ],
+      "tags": ["价格偏高", "高峰不稳"],
+      "updatedAt": "2026-04-01T08:00:00Z"
+    },
+    {
+      "id": "relay-gamma",
+      "name": "Gamma API",
+      "url": "gamma-api.example.com",
+      "overallScore": 61,
+      "verdict": "👍 可用",
+      "dimensions": {
+        "latency": 85,
+        "stability": 72,
+        "pricing": 90,
+        "authenticity": 40,
+        "transparency": 30
+      },
+      "details": {
+        "avgLatencyMs": 380,
+        "p50LatencyMs": 350,
+        "p95LatencyMs": 900,
+        "ttftMs": 300,
+        "throughputTps": 28,
+        "errorRate7d": 5.5,
+        "uptimePercent": 94.5,
+        "supportsStreaming": true,
+        "modelsAvailable": ["claude-opus-4", "claude-sonnet-4", "claude-haiku-3.5"],
+        "pricingMultiplier": 0.80,
+        "pricingNote": "官方价80%，低于成本价，模型可疑",
+        "verificationVerdict": "suspicious",
+        "verificationConfidence": 55,
+        "billingScore": 45,
+        "systemPromptInjection": true,
+        "hasStatusPage": false,
+        "hasRefundPolicy": false,
+        "publishesPricing": false
+      },
+      "pricing": {
+        "opus": { "input": 12.00, "output": 60.00, "note": "官方价80% ⚠️" },
+        "sonnet": { "input": 2.40, "output": 12.00, "note": "官方价80% ⚠️" }
+      },
+      "history": [
+        { "date": "2026-03-25", "score": 58, "latency": 400 },
+        { "date": "2026-03-26", "score": 60, "latency": 390 },
+        { "date": "2026-03-27", "score": 55, "latency": 450 },
+        { "date": "2026-03-28", "score": 62, "latency": 370 },
+        { "date": "2026-03-29", "score": 60, "latency": 380 },
+        { "date": "2026-03-30", "score": 59, "latency": 395 },
+        { "date": "2026-04-01", "score": 61, "latency": 380 }
+      ],
+      "tags": ["⚠️ 模型可疑", "⚠️ System Prompt注入", "价格低"],
+      "warnings": ["检测到隐藏System Prompt注入（虚增Token）", "模型验真结果可疑，可能非原版Opus"],
+      "updatedAt": "2026-04-01T08:00:00Z"
+    },
+    {
+      "id": "relay-delta",
+      "name": "Delta Proxy",
+      "url": "delta-proxy.example.com",
+      "overallScore": 31,
+      "verdict": "🚫 模型造假",
+      "dimensions": {
+        "latency": 70,
+        "stability": 55,
+        "pricing": 80,
+        "authenticity": 0,
+        "transparency": 10
+      },
+      "details": {
+        "avgLatencyMs": 450,
+        "p50LatencyMs": 420,
+        "p95LatencyMs": 1500,
+        "ttftMs": 180,
+        "throughputTps": 40,
+        "errorRate7d": 8.0,
+        "uptimePercent": 92.0,
+        "supportsStreaming": true,
+        "modelsAvailable": ["claude-opus-4"],
+        "pricingMultiplier": 0.50,
+        "pricingNote": "声称Opus官方价50%，实际使用Sonnet提供服务",
+        "verificationVerdict": "fake",
+        "verificationConfidence": 85,
+        "billingScore": 30,
+        "systemPromptInjection": true,
+        "hasStatusPage": false,
+        "hasRefundPolicy": false,
+        "publishesPricing": false
+      },
+      "pricing": {
+        "opus": { "input": 7.50, "output": 37.50, "note": "声称Opus价，实际提供Sonnet ❌" }
+      },
+      "history": [
+        { "date": "2026-03-25", "score": 35, "latency": 430 },
+        { "date": "2026-03-26", "score": 33, "latency": 440 },
+        { "date": "2026-03-27", "score": 30, "latency": 460 },
+        { "date": "2026-03-28", "score": 32, "latency": 450 },
+        { "date": "2026-03-29", "score": 28, "latency": 470 },
+        { "date": "2026-03-30", "score": 30, "latency": 455 },
+        { "date": "2026-04-01", "score": 31, "latency": 450 }
+      ],
+      "tags": ["❌ 模型造假", "❌ 计费欺诈", "❌ 无退款"],
+      "warnings": ["确认模型造假：声称Opus，实际为Sonnet", "TTFT仅180ms，远低于Opus正常范围", "检测到System Prompt注入"],
+      "updatedAt": "2026-04-01T08:00:00Z"
+    },
+    {
+      "id": "relay-epsilon",
+      "name": "Epsilon Cloud",
+      "url": "epsilon-cloud.example.com",
+      "overallScore": 82,
+      "verdict": "🌟 推荐",
+      "dimensions": {
+        "latency": 88,
+        "stability": 85,
+        "pricing": 78,
+        "authenticity": 85,
+        "transparency": 70
+      },
+      "details": {
+        "avgLatencyMs": 380,
+        "p50LatencyMs": 350,
+        "p95LatencyMs": 750,
+        "ttftMs": 310,
+        "throughputTps": 30,
+        "errorRate7d": 1.5,
+        "uptimePercent": 98.5,
+        "supportsStreaming": true,
+        "modelsAvailable": ["claude-opus-4", "claude-sonnet-4", "claude-haiku-3.5"],
+        "pricingMultiplier": 1.35,
+        "pricingNote": "官方价135%，支持按月订阅有折扣",
+        "verificationVerdict": "authentic",
+        "verificationConfidence": 88,
+        "billingScore": 82,
+        "systemPromptInjection": false,
+        "hasStatusPage": true,
+        "hasRefundPolicy": true,
+        "publishesPricing": true
+      },
+      "pricing": {
+        "opus": { "input": 20.25, "output": 101.25, "note": "官方价135%" },
+        "sonnet": { "input": 4.05, "output": 20.25, "note": "官方价135%" },
+        "haiku": { "input": 1.08, "output": 5.40, "note": "官方价135%" }
+      },
+      "history": [
+        { "date": "2026-03-25", "score": 80, "latency": 400 },
+        { "date": "2026-03-26", "score": 81, "latency": 390 },
+        { "date": "2026-03-27", "score": 82, "latency": 380 },
+        { "date": "2026-03-28", "score": 81, "latency": 385 },
+        { "date": "2026-03-29", "score": 83, "latency": 370 },
+        { "date": "2026-03-30", "score": 82, "latency": 380 },
+        { "date": "2026-04-01", "score": 82, "latency": 380 }
+      ],
+      "tags": ["稳定", "有月卡折扣", "模型齐全"],
+      "updatedAt": "2026-04-01T08:00:00Z"
+    }
+  ]
+}
