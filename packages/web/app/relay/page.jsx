@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import rankingsData from '../../data/rankings.json';
 
 function getScoreColor(score) {
@@ -81,8 +85,9 @@ function PricingTable({ pricing }) {
   );
 }
 
-export default function RelayDetailPage({ searchParams }) {
-  const id = searchParams?.id;
+function RelayDetailContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
   const relay = rankingsData.relays.find(r => r.id === id);
 
   if (!relay) {
@@ -205,5 +210,13 @@ export default function RelayDetailPage({ searchParams }) {
         </div>
       </footer>
     </>
+  );
+}
+
+export default function RelayDetailPage() {
+  return (
+    <Suspense fallback={<div className="container" style={{ padding: '80px 0', textAlign: 'center' }}>加载中...</div>}>
+      <RelayDetailContent />
+    </Suspense>
   );
 }

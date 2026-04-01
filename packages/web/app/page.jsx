@@ -77,7 +77,7 @@ export default function HomePage() {
               const rank = idx + 1;
               const rankClass = rank <= 3 ? `rank-num top${rank}` : 'rank-num';
               return (
-                <tr key={relay.id} className="ranking-row" onClick={() => {}}>
+                <tr key={relay.id} className="ranking-row">
                   <td><div className={rankClass}>{rank}</div></td>
                   <td>
                     <Link href={`/relay/?id=${relay.id}`}>
