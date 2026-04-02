@@ -1,21 +1,140 @@
 /**
  * ModelVerifier — Verify model authenticity through fingerprinting
  *
- * Multi-dimensional verification with improved scoring differentiation.
+ * Two verification engines:
+ *   1. LLMmap (primary) — Based on USENIX Security 2025 paper, >95% accuracy
+ *   2. Heuristic (fallback) — Custom reasoning/code/latency checks
+ *
+ * LLMmap sends 8 standardized probe queries and analyzes response patterns.
+ * Heuristic uses reasoning puzzles, code generation, and timing analysis.
+ * Both results are combined for the final verdict.
  */
 
 import { FINGERPRINT_QUESTIONS, SUPPORTED_MODELS } from '../constants.mjs';
 import { sendRequest, sanitize } from '../shared/http-client.mjs';
+import { LLMmapVerifier } from './llmmap/index.mjs';
 
 export function ModelVerifier(options = {}) {
   const timeout = options.timeout ?? 60000;
   const questionSubset = options.questions ?? FINGERPRINT_QUESTIONS;
+  const llmmapMode = options.llmmapMode ?? 'lite';
+  const llmmapOpts = {
+    mode: llmmapMode,
+    pythonPath: options.pythonPath,
+    llmmapDir: options.llmmapDir,
+    timeout,
+  };
 
   return Object.freeze({
-    verify: (relay) => verifyModel(relay, questionSubset, timeout),
-    quickVerify: (relay) => quickVerifyModel(relay, questionSubset, timeout),
+    /**
+     * Full verification: LLMmap probes + heuristic checks.
+     * LLMmap result takes priority; heuristic provides supporting evidence.
+     */
+    verify: (relay) => combinedVerify(relay, questionSubset, timeout, llmmapOpts),
+
+    /** LLMmap-only verification (8 probes, fastest) */
+    verifyLLMmap: (relay) => {
+      const v = LLMmapVerifier(llmmapOpts);
+      return v.verify(relay);
+    },
+
+    /** Heuristic-only verification (legacy, 8 custom questions) */
+    verifyHeuristic: (relay) => verifyModel(relay, questionSubset, timeout),
+
+    /** Quick check — LLMmap lite only */
+    quickVerify: (relay) => {
+      const v = LLMmapVerifier({ ...llmmapOpts, mode: 'lite' });
+      return v.verify(relay);
+    },
+
+    /** Get the probe queries for inspection */
     getQuestions: () => Object.freeze([...questionSubset]),
+
+    /** Get LLMmap probes */
+    getLLMmapProbes: () => {
+      const v = LLMmapVerifier(llmmapOpts);
+      return v.getProbes();
+    },
   });
+}
+
+/**
+ * Combined verification: run LLMmap + heuristic, merge results.
+ */
+async function combinedVerify(relay, questions, timeout, llmmapOpts) {
+  // Run LLMmap and heuristic in parallel
+  const [llmmapResult, heuristicResult] = await Promise.allSettled([
+    LLMmapVerifier(llmmapOpts).verify(relay),
+    verifyModel(relay, questions, timeout),
+  ]);
+
+  const llmmap = llmmapResult.status === 'fulfilled' ? llmmapResult.value : null;
+  const heuristic = heuristicResult.status === 'fulfilled' ? heuristicResult.value : null;
+
+  // Merge: LLMmap is primary, heuristic is supporting
+  if (llmmap && heuristic) {
+    const agreed = (llmmap.verdict === heuristic.verdict) ||
+      (llmmap.matchesClaim === (heuristic.verdict === 'authentic' || heuristic.verdict === 'likely_authentic'));
+
+    const finalVerdict = agreed
+      ? llmmap.verdict
+      : llmmap.confidence > heuristic.confidence ? llmmap.verdict : 'inconclusive';
+
+    const finalConfidence = agreed
+      ? Math.min(99, Math.round((llmmap.confidence + heuristic.confidence) / 2 * 1.2))
+      : Math.round((llmmap.confidence + heuristic.confidence) / 2 * 0.8);
+
+    return Object.freeze({
+      relay: relay.name ?? relay.baseUrl,
+      claimedModel: relay.model ?? 'unknown',
+      predictedModel: llmmap.predictedModel,
+      confidence: finalConfidence,
+      verdict: finalVerdict,
+      method: 'combined',
+      agreement: agreed,
+      llmmap: Object.freeze(llmmap),
+      heuristic: Object.freeze(heuristic),
+      summary: buildCombinedSummary(relay.model, llmmap, heuristic, finalVerdict, finalConfidence, agreed),
+      verifiedAt: new Date().toISOString(),
+    });
+  }
+
+  // Fallback: only one succeeded
+  if (llmmap) {
+    return Object.freeze({
+      ...llmmap,
+      relay: relay.name ?? relay.baseUrl,
+      method: 'llmmap-only',
+      heuristic: null,
+      summary: `LLMmap验证: ${llmmap.verdict} (${llmmap.predictedModel}, 置信度${llmmap.confidence}%)`,
+    });
+  }
+
+  if (heuristic) {
+    return Object.freeze({
+      ...heuristic,
+      method: 'heuristic-only',
+      llmmap: null,
+      summary: heuristic.summary ?? '仅启发式验证',
+    });
+  }
+
+  return Object.freeze({
+    relay: relay.name ?? relay.baseUrl,
+    claimedModel: relay.model ?? 'unknown',
+    predictedModel: 'unknown',
+    confidence: 0,
+    verdict: 'inconclusive',
+    method: 'failed',
+    summary: '❓ 两种验证方法均失败',
+    verifiedAt: new Date().toISOString(),
+  });
+}
+
+function buildCombinedSummary(claimed, llmmap, heuristic, verdict, confidence, agreed) {
+  const emoji = { authentic: '✅', suspicious: '⚠️', fake: '❌', inconclusive: '❓' }[verdict] ?? '❓';
+  const agree = agreed ? '两种方法结论一致' : '两种方法结论不一致';
+  return `${emoji} ${verdict}: 声称${claimed}, LLMmap判定${llmmap.predictedModel} (${agree}, 综合置信度${confidence}%)`;
 }
 
 async function verifyModel(relay, questions, timeout) {

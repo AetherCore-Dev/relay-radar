@@ -10,6 +10,7 @@ export { TokenAnalyzer } from './analyzer/index.mjs';
 // Key-required modules (runs locally, key never leaves machine)
 export { RelayProber } from './prober/index.mjs';
 export { ModelVerifier } from './verifier/index.mjs';
+export { LLMmapVerifier } from './verifier/llmmap/index.mjs';
 export { RelayRanker } from './ranker/index.mjs';
 
 // Configuration
