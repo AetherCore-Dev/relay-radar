@@ -76,8 +76,11 @@ export function extractFeatures(text) {
     transitionRate(text, wordCount),
 
     // ─── Code-specific (13-14) ───────────────────────────
-    // 13: Code-to-prose ratio
-    codeBlockDensity(text) > 0 ? codeBlockDensity(text) : 0,
+    // 13: Code-to-prose ratio (code chars / non-code chars)
+    (() => {
+      const codeDensity = codeBlockDensity(text);
+      return codeDensity > 0 ? Math.min(1, codeDensity / (1 - codeDensity + 0.01)) : 0;
+    })(),
 
     // 14: Comment density in code blocks
     codeCommentDensity(text),
@@ -89,7 +92,7 @@ export const FEATURE_NAMES = Object.freeze([
   'responseLength', 'lineCount', 'codeBlockDensity', 'markdownRichness',
   'paragraphCount', 'vocabRichness', 'avgSentenceLength', 'avgWordLength',
   'longWordRatio', 'hedgingRate', 'confidenceRate', 'firstPersonRate',
-  'transitionRate', 'codeProsRatio', 'codeCommentDensity',
+  'transitionRate', 'codeProseRatio', 'codeCommentDensity',
 ]);
 
 export const FEATURE_COUNT = 15;

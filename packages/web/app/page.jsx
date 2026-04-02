@@ -33,7 +33,7 @@ function ScoreCell({ label, value }) {
 }
 
 export default function HomePage() {
-  const relays = rankingsData.relays.sort((a, b) => b.overallScore - a.overallScore);
+  const relays = [...rankingsData.relays].sort((a, b) => b.overallScore - a.overallScore);
   const updatedAt = new Date(rankingsData.generatedAt).toLocaleDateString('zh-CN', {
     year: 'numeric', month: 'long', day: 'numeric',
   });

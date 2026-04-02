@@ -114,8 +114,10 @@ async function classifyFull(probeData, opts) {
   }
 
   // Write responses to temp file
-  const tmpFile = join(tmpdir(), `llmmap-input-${Date.now()}.json`);
-  const outputFile = join(tmpdir(), `llmmap-output-${Date.now()}.json`);
+  const { randomUUID } = await import('node:crypto');
+  const id = randomUUID();
+  const tmpFile = join(tmpdir(), `llmmap-input-${id}.json`);
+  const outputFile = join(tmpdir(), `llmmap-output-${id}.json`);
 
   try {
     await writeFile(tmpFile, JSON.stringify(probeData.responses), { mode: 0o600 });
@@ -129,7 +131,7 @@ from LLMmap.inference import load_LLMmap
 with open(${JSON.stringify(tmpFile)}) as f:
     answers = json.load(f)
 
-conf, llmmap = load_LLMmap('${llmmapDir}/data/pretrained_models/default/')
+conf, llmmap = load_LLMmap(${JSON.stringify(llmmapDir + '/data/pretrained_models/default/')})
 distances = llmmap(answers)
 
 # Get sorted results

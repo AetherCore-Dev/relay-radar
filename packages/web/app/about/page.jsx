@@ -113,7 +113,8 @@ npx relay-radar tips    # 省钱妙招
 npx relay-radar ping <url>  # 测试连接
 
 # 需要API Key的命令（纯本地运行）
-npx relay-radar verify  # 验证模型真假
+npx relay-radar monitor # ⭐推荐 被动行为指纹验证
+npx relay-radar verify  # 主动探针验证
 npx relay-radar rank    # 综合排名`}
             </pre>
             <p style={{ marginTop: 12 }}>

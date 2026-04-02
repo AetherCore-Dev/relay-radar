@@ -43,20 +43,27 @@ async function pingRelay(urlStr) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 10000);
 
-    const response = await fetch(url, {
-      method: 'HEAD',
-      signal: controller.signal,
-      redirect: 'follow',
-    }).catch(async () => {
-      // Some servers reject HEAD, try GET with abort-on-first-byte
-      return fetch(url, {
-        method: 'GET',
+    let response;
+    try {
+      response = await fetch(url, {
+        method: 'HEAD',
         signal: controller.signal,
         redirect: 'follow',
+      }).catch(async () => {
+        // Some servers reject HEAD, try GET with abort-on-first-byte
+        const resp = await fetch(url, {
+          method: 'GET',
+          signal: controller.signal,
+          redirect: 'follow',
+        });
+        // Drain body to release connection
+        resp.body?.cancel().catch(() => {});
+        return resp;
       });
-    });
+    } finally {
+      clearTimeout(timer);
+    }
 
-    clearTimeout(timer);
     const totalMs = Date.now() - start;
 
     // Check TLS

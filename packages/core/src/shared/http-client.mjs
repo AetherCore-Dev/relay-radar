@@ -19,6 +19,7 @@ const PRIVATE_IP_RANGES = [
   /^0\./,
   /^::1$/,
   /^fc00:/i,
+  /^fd[0-9a-f]{2}:/i,
   /^fe80:/i,
   /^localhost$/i,
 ];
@@ -342,6 +343,7 @@ export function validateUrl(urlStr) {
  * Read response body with a byte limit.
  */
 async function readLimitedBody(response, maxBytes) {
+  if (!response.body) return '';
   const reader = response.body.getReader();
   const chunks = [];
   let total = 0;

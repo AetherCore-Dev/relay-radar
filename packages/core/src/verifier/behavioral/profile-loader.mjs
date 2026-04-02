@@ -121,6 +121,10 @@ async function tryFetchRemote(url) {
     if (!response.ok) return null;
 
     const raw = await response.text();
+    // Guard against oversized responses (max 512KB for profiles)
+    if (raw.length > 512_000) return null;
+    // Guard against oversized responses (max 512KB for profiles)
+    if (raw.length > 512_000) return null;
     const data = JSON.parse(raw);
     const profiles = parseRemoteProfiles(data);
 

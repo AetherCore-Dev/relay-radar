@@ -199,7 +199,7 @@ function analyzeUsage(records) {
   const modelGroups = groupBy(records, 'model');
   let expectedCost = 0;
   for (const [model, group] of Object.entries(modelGroups)) {
-    const pricing = MODEL_PRICING[model] ?? MODEL_PRICING['claude-sonnet-4'];
+    const pricing = MODEL_PRICING[model] ?? MODEL_PRICING[findPricingKey(model)];
     for (const r of group) {
       expectedCost += calculateSingleCost(pricing, r);
     }
@@ -345,6 +345,14 @@ function getRecommendations(records) {
   }));
 
   return Object.freeze(recommendations);
+}
+
+/** Fuzzy match versioned model names (e.g. 'claude-opus-4-20250514') to pricing keys */
+function findPricingKey(modelName) {
+  const lower = (modelName ?? '').toLowerCase();
+  if (lower.includes('opus')) return 'claude-opus-4';
+  if (lower.includes('haiku')) return 'claude-haiku-3.5';
+  return 'claude-sonnet-4';
 }
 
 function calculateSingleCost(pricing, record) {

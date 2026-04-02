@@ -37,7 +37,7 @@ function DimensionBar({ label, score }) {
 }
 
 function TrendChart({ history }) {
-  if (!history || history.length === 0) return null;
+  if (!history || history.length < 2) return null;
   const maxScore = 100;
   const width = 100;
   const height = 40;
@@ -101,7 +101,7 @@ function RelayDetailContent() {
     );
   }
 
-  const rank = rankingsData.relays
+  const rank = [...rankingsData.relays]
     .sort((a, b) => b.overallScore - a.overallScore)
     .findIndex(r => r.id === id) + 1;
   const d = relay.details;

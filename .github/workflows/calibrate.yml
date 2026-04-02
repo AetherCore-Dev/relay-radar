@@ -34,6 +34,8 @@ jobs:
           CALIBRATE_HAIKU_KEY: ${{ secrets.CALIBRATE_HAIKU_KEY }}
           CALIBRATE_GPT4O_URL: ${{ secrets.CALIBRATE_GPT4O_URL }}
           CALIBRATE_GPT4O_KEY: ${{ secrets.CALIBRATE_GPT4O_KEY }}
+          CALIBRATE_DOMESTIC_URL: ${{ secrets.CALIBRATE_DOMESTIC_URL }}
+          CALIBRATE_DOMESTIC_KEY: ${{ secrets.CALIBRATE_DOMESTIC_KEY }}
 
       - name: Commit updated profiles
         run: |

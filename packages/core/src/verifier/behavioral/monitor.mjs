@@ -55,7 +55,7 @@ export function BehavioralVerifier(opts = {}) {
     features: [],                             // last N feature vectors for debugging
   };
 
-  return {
+  return Object.freeze({
     /**
      * Feed a response into the verifier. Call this for every API response.
      * Returns the current verification status.
@@ -122,7 +122,7 @@ export function BehavioralVerifier(opts = {}) {
 
     /** Has the sequential test triggered an alert? */
     get hasAlert() { return state.alert; },
-  };
+  });
 }
 
 // ─── Statistical Helpers ─────────────────────────────────────────────────────
@@ -284,5 +284,6 @@ function resolveProfileKey(modelName) {
   if (lower.includes('gpt-4o') || lower.includes('gpt4o')) return 'gpt-4o';
   if (lower.includes('gpt')) return 'gpt-4o';
   if (lower.includes('qwen') || lower.includes('deepseek') || lower.includes('glm')) return 'domestic';
-  return 'claude-sonnet'; // default
+  // Default to claude-sonnet but warn — caller may be using an unknown model
+  return 'claude-sonnet';
 }

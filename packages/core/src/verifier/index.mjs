@@ -113,6 +113,7 @@ async function combinedVerify(relay, questions, timeout, llmmapOpts) {
   if (heuristic) {
     return Object.freeze({
       ...heuristic,
+      predictedModel: heuristic.likelyModel ?? 'unknown',
       method: 'heuristic-only',
       llmmap: null,
       summary: heuristic.summary ?? '仅启发式验证',
@@ -218,18 +219,10 @@ async function verifyModel(relay, questions, timeout) {
   });
 }
 
-async function quickVerifyModel(relay, questionSubset, timeout) {
-  // Use self-id + one reasoning question from the provided subset (not module constant)
-  const quickQuestions = questionSubset.filter(
-    (q) => q.id === 'self-id-1' || q.id === 'reason-2'
-  );
-  // Fallback: if custom subset doesn't have those IDs, take first 2
-  const questions = quickQuestions.length >= 2
-    ? quickQuestions
-    : questionSubset.slice(0, 2);
-
-  const result = await verifyModel(relay, questions, timeout);
-  return Object.freeze({ ...result, mode: 'quick' });
+async function quickVerifyModel() {
+  // REMOVED: was dead code, never called from any public method.
+  // quickVerify on ModelVerifier uses LLMmapVerifier directly.
+  throw new Error('quickVerifyModel removed — use ModelVerifier.quickVerify() instead');
 }
 
 /** Execute a single fingerprint check using shared HTTP client */

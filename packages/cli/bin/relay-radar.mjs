@@ -314,7 +314,8 @@ function askUser(prompt) {
 async function runProbe(args) {
   const config = await loadConfig(args[0]);
 
-  const tokensPerRelay = 50 * (config.probe.warmupRounds + config.probe.testRounds);
+  const probeConfig = config.probe ?? { warmupRounds: 2, testRounds: 5, timeout: 30000 };
+  const tokensPerRelay = 50 * (probeConfig.warmupRounds + probeConfig.testRounds);
   const totalTokens = tokensPerRelay * config.relays.length;
 
   const confirmed = await confirmKeyUsage(
@@ -327,7 +328,7 @@ async function runProbe(args) {
   const { RelayProber } = await importCore();
   console.log(`\n📡 正在探测 ${config.relays.length} 个中转站...\n`);
 
-  const prober = RelayProber(config.probe);
+  const prober = RelayProber(probeConfig);
   const results = await prober.probeAll(config.relays);
 
   for (const result of results) {
@@ -404,7 +405,7 @@ async function runMonitor(args) {
   const confirmed = await confirmKeyUsage(1, '🔬 被动行为指纹验证（20轮正常编程请求）', totalTokens);
   if (!confirmed) { console.log('  已取消。'); return; }
 
-  const { BehavioralVerifier, loadProfiles } = await importCore();
+  const { BehavioralVerifier, loadProfiles, sendRequest } = await importCore();
 
   // Load latest profiles (remote > cache > builtin)
   const profileResult = await loadProfiles();
@@ -439,8 +440,6 @@ async function runMonitor(args) {
   ];
 
   console.log(`\n  📡 发送${numRounds}个正常编程请求...\n`);
-
-  const { sendRequest } = await importCore();
 
   for (let i = 0; i < numRounds; i++) {
     const prompt = normalRequests[i % normalRequests.length];

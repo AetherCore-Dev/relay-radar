@@ -59,24 +59,24 @@ export default function ToolsPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
                 <label style={{ fontSize: 12, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>每日输入 tokens</label>
-                <input type="number" value={inputTokens} onChange={(e) => setInputTokens(Number(e.target.value))}
+                <input type="number" min="0" value={inputTokens} onChange={(e) => setInputTokens(Math.max(0, Number(e.target.value)))}
                   style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 }} />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>每日输出 tokens</label>
-                <input type="number" value={outputTokens} onChange={(e) => setOutputTokens(Number(e.target.value))}
+                <input type="number" min="0" value={outputTokens} onChange={(e) => setOutputTokens(Math.max(0, Number(e.target.value)))}
                   style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 }} />
               </div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
                 <label style={{ fontSize: 12, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>每月工作天数</label>
-                <input type="number" value={daysPerMonth} onChange={(e) => setDaysPerMonth(Number(e.target.value))}
+                <input type="number" min="1" max="31" value={daysPerMonth} onChange={(e) => setDaysPerMonth(Math.max(1, Math.min(31, Number(e.target.value))))}
                   style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 }} />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>中转站加价倍率</label>
-                <input type="number" step="0.05" value={relayMultiplier} onChange={(e) => setRelayMultiplier(Number(e.target.value))}
+                <input type="number" step="0.05" min="0.1" value={relayMultiplier} onChange={(e) => setRelayMultiplier(Math.max(0.1, Number(e.target.value)))}
                   style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 }} />
               </div>
             </div>
