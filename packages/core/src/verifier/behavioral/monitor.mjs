@@ -29,15 +29,17 @@ import { MODEL_PROFILES } from './profiles.mjs';
  * @param {Object} opts
  * @param {string} opts.claimedModel - e.g. 'claude-opus-4'
  * @param {number} [opts.alpha] - Significance level for sequential test (default 0.05)
+ * @param {Object} [opts.profiles] - Custom profiles (from loadProfiles), falls back to MODEL_PROFILES
  * @returns {Object}
  */
 export function BehavioralVerifier(opts = {}) {
   const claimedModel = opts.claimedModel ?? 'claude-opus';
   const alpha = opts.alpha ?? 0.05;
+  const profiles = opts.profiles ?? MODEL_PROFILES;
 
   // Map claimed model name to profile key
   const profileKey = resolveProfileKey(claimedModel);
-  const claimedProfile = MODEL_PROFILES[profileKey];
+  const claimedProfile = profiles[profileKey];
   if (!claimedProfile) {
     throw new Error(`No reference profile for model: ${claimedModel} (resolved to: ${profileKey})`);
   }
@@ -87,12 +89,12 @@ export function BehavioralVerifier(opts = {}) {
         }
       }
 
-      return getStatus(state, claimedProfile, profileKey);
+      return getStatus(state, claimedProfile, profileKey, profiles);
     },
 
     /** Get current verification status without adding new data */
     getStatus() {
-      return getStatus(state, claimedProfile, profileKey);
+      return getStatus(state, claimedProfile, profileKey, profiles);
     },
 
     /** Get the running feature profile */
@@ -197,12 +199,12 @@ function profileDistance(observedMean, claimedProfile) {
 /**
  * Find which model profile best matches the observed behavior.
  */
-function findBestMatch(observedMean) {
+function findBestMatch(observedMean, profiles) {
   let bestKey = 'unknown';
   let bestDist = Infinity;
   const distances = {};
 
-  for (const [key, profile] of Object.entries(MODEL_PROFILES)) {
+  for (const [key, profile] of Object.entries(profiles)) {
     const dist = profileDistance(observedMean, profile);
     distances[key] = Math.round(dist * 100) / 100;
     if (dist < bestDist) {
@@ -214,7 +216,7 @@ function findBestMatch(observedMean) {
   return { bestKey, bestDist, distances };
 }
 
-function getStatus(state, claimedProfile, profileKey) {
+function getStatus(state, claimedProfile, profileKey, profiles) {
   if (state.n < 5) {
     return Object.freeze({
       status: 'collecting',
@@ -226,7 +228,7 @@ function getStatus(state, claimedProfile, profileKey) {
   }
 
   const distanceToClaimed = profileDistance(state.mean, claimedProfile);
-  const { bestKey, bestDist, distances } = findBestMatch(state.mean);
+  const { bestKey, bestDist, distances } = findBestMatch(state.mean, profiles);
 
   const matchesClaim = bestKey === profileKey;
   const gap = distanceToClaimed - bestDist;

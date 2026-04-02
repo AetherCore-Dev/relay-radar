@@ -1,0 +1,44 @@
+name: Calibrate Profiles
+# Weekly calibration of behavioral fingerprint reference profiles.
+# Sends real requests to official model APIs, computes mean/std for 15 features,
+# and commits updated profiles.json for user-side sync.
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'  # Every Monday at 03:17 UTC (off-minute to avoid fleet collision)
+  workflow_dispatch:       # Manual trigger support
+
+permissions:
+  contents: write
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run calibration
+        run: node scripts/calibrate.mjs
+        env:
+          CALIBRATE_OPUS_URL: ${{ secrets.CALIBRATE_OPUS_URL }}
+          CALIBRATE_OPUS_KEY: ${{ secrets.CALIBRATE_OPUS_KEY }}
+          CALIBRATE_SONNET_URL: ${{ secrets.CALIBRATE_SONNET_URL }}
+          CALIBRATE_SONNET_KEY: ${{ secrets.CALIBRATE_SONNET_KEY }}
+          CALIBRATE_HAIKU_URL: ${{ secrets.CALIBRATE_HAIKU_URL }}
+          CALIBRATE_HAIKU_KEY: ${{ secrets.CALIBRATE_HAIKU_KEY }}
+          CALIBRATE_GPT4O_URL: ${{ secrets.CALIBRATE_GPT4O_URL }}
+          CALIBRATE_GPT4O_KEY: ${{ secrets.CALIBRATE_GPT4O_KEY }}
+
+      - name: Commit updated profiles
+        run: |
+          git config user.name "relay-radar-bot"
+          git config user.email "bot@relay-radar.dev"
+          git add packages/web/data/profiles.json
+          git diff --cached --quiet || git commit -m "chore: update calibrated profiles $(date +%Y-%m-%d)"
+          git push

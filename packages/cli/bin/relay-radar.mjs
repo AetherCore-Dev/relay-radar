@@ -404,9 +404,15 @@ async function runMonitor(args) {
   const confirmed = await confirmKeyUsage(1, '🔬 被动行为指纹验证（20轮正常编程请求）', totalTokens);
   if (!confirmed) { console.log('  已取消。'); return; }
 
-  const { BehavioralVerifier, extractFeatures } = await importCore();
+  const { BehavioralVerifier, loadProfiles } = await importCore();
 
-  const verifier = BehavioralVerifier({ claimedModel: model });
+  // Load latest profiles (remote > cache > builtin)
+  const profileResult = await loadProfiles();
+  const sourceLabel = { remote: '🌐 远程最新', cache: '💾 本地缓存', builtin: '📦 内置默认' }[profileResult.source] ?? '📦 内置';
+  console.log(`  📦 画像来源: ${sourceLabel}${profileResult.age != null ? ` (${profileResult.age}分钟前)` : ''}`);
+  console.log('');
+
+  const verifier = BehavioralVerifier({ claimedModel: model, profiles: profileResult.profiles });
 
   // Normal-looking coding requests (NOT special probes!)
   const normalRequests = [

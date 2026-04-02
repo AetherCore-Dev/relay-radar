@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { extractFeatures, FEATURE_NAMES, FEATURE_COUNT } from '../src/verifier/behavioral/features.mjs';
 import { BehavioralVerifier } from '../src/verifier/behavioral/monitor.mjs';
 import { MODEL_PROFILES } from '../src/verifier/behavioral/profiles.mjs';
+import { loadProfiles } from '../src/verifier/behavioral/profile-loader.mjs';
 
 // ─── Feature Extraction ──────────────────────────────────────────────────────
 
@@ -165,5 +166,78 @@ describe('BehavioralVerifier', () => {
     assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'claude-sonnet-4' }));
     assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'claude-haiku-3.5' }));
     assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'gpt-4o' }));
+  });
+
+  it('accepts custom profiles parameter', () => {
+    const customProfiles = {
+      'claude-opus': {
+        mean: new Array(15).fill(0.5),
+        std: new Array(15).fill(0.1),
+        description: 'custom test profile',
+      },
+    };
+    const v = BehavioralVerifier({
+      claimedModel: 'claude-opus-4',
+      profiles: customProfiles,
+    });
+    assert.equal(v.count, 0);
+    v.update('Hello world. Test response.');
+    assert.equal(v.count, 1);
+  });
+
+  it('custom profiles affect distance calculation', () => {
+    // Profile that expects very short responses
+    const shortProfiles = {
+      'claude-opus': {
+        mean: [0.1, 0.1, 0, 0, 0.1, 0.5, 0.3, 0.4, 0.2, 0, 0, 0, 0, 0, 0],
+        std: [0.05, 0.05, 0.1, 0.1, 0.05, 0.1, 0.1, 0.1, 0.1, 0.05, 0.05, 0.05, 0.05, 0.1, 0.1],
+        description: 'fake short profile',
+      },
+    };
+    const v = BehavioralVerifier({
+      claimedModel: 'claude-opus-4',
+      profiles: shortProfiles,
+    });
+    // Feed long verbose responses — should NOT match the short profile
+    for (let i = 0; i < 10; i++) {
+      v.update(
+        '## Very Long Analysis\n\n' +
+        'Perhaps this is worth considering. However, there are many factors. '.repeat(5) +
+        '\n\n```js\n// code\nconst x = 1;\n```\n'
+      );
+    }
+    const s = v.getStatus();
+    assert.ok(s.distanceToClaimed > 1, `expected large distance, got ${s.distanceToClaimed}`);
+  });
+});
+
+// ─── Profile Loader ─────────────────────────────────────────────────────────
+
+describe('loadProfiles', () => {
+  it('falls back to builtin when remote and cache unavailable', async () => {
+    const result = await loadProfiles({
+      skipCache: true,
+      remoteUrl: 'http://localhost:99999/nonexistent', // will fail
+    });
+    assert.equal(result.source, 'builtin');
+    assert.ok(result.profiles['claude-opus']);
+    assert.ok(result.profiles['claude-sonnet']);
+    assert.equal(result.age, null);
+  });
+
+  it('returns frozen profiles object', async () => {
+    const result = await loadProfiles({ skipRemote: true, skipCache: true });
+    assert.ok(Object.isFrozen(result));
+    assert.ok(result.profiles['claude-opus']);
+  });
+
+  it('builtin profiles match MODEL_PROFILES', async () => {
+    const result = await loadProfiles({ skipRemote: true, skipCache: true });
+    assert.deepEqual(result.profiles['claude-opus'].mean, MODEL_PROFILES['claude-opus'].mean);
+  });
+
+  it('skipRemote + skipCache always returns builtin', async () => {
+    const result = await loadProfiles({ skipRemote: true, skipCache: true });
+    assert.equal(result.source, 'builtin');
   });
 });
