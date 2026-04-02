@@ -4,6 +4,8 @@ dist/
 out/
 *.env
 *.env.local
+relay-radar.json
+.relay-radar.json
 probe-results.json
 ranking-report.json
 package-lock.json

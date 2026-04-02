@@ -78,7 +78,7 @@ async function main() {
 
 /** Default: first-run experience — scan local data, show value immediately */
 async function runDefault() {
-  console.log('\n🛰️  RelayRadar — AI中转站质量监控工具 v0.2.0');
+  console.log('\n🛰️  RelayRadar — AI中转站质量监控工具 v0.3.0');
   console.log('   本工具完全在本地运行，不上传任何数据。\n');
 
   const { LocalScanner } = await importCore();
@@ -482,7 +482,7 @@ function runHelp() {
 🛰️  RelayRadar — AI中转站质量监控工具
 
   本工具完全在本地运行，API Key不会上传到任何地方。
-  源码开源可审计: https://github.com/xxx/relay-radar
+  源码开源可审计: https://github.com/anthropic-fans/relay-radar
 
 ━━ 无需API Key的命令（立即可用）━━━━━━━━━━━━━━━━━━
 

@@ -1,6 +1,6 @@
 {
   "name": "@relay-radar/core",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Core engine: relay probing, model verification, token analysis",
   "type": "module",
   "main": "src/index.mjs",

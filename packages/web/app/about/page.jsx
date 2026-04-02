@@ -117,7 +117,7 @@ npx relay-radar verify  # 验证模型真假
 npx relay-radar rank    # 综合排名`}
             </pre>
             <p style={{ marginTop: 12 }}>
-              GitHub: <a href="https://github.com/xxx/relay-radar" target="_blank" rel="noopener">github.com/xxx/relay-radar</a>
+              GitHub: <a href="https://github.com/anthropic-fans/relay-radar" target="_blank" rel="noopener">github.com/anthropic-fans/relay-radar</a>
             </p>
           </div>
         </section>

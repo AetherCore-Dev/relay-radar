@@ -80,9 +80,8 @@ RelayConfig.fromEnv = function fromEnv() {
   try {
     const relays = JSON.parse(endpointsJson);
     return RelayConfig({ relays: Array.isArray(relays) ? relays : [relays] });
-  } catch {
-    console.error('Failed to parse RELAY_RADAR_ENDPOINTS env var');
-    return RelayConfig({ relays: [] });
+  } catch (err) {
+    throw new Error(`RELAY_RADAR_ENDPOINTS 环境变量不是有效的JSON: ${err.message}`);
   }
 };
 
@@ -95,7 +94,6 @@ function normalizeUrl(url) {
   }
   // Reject plaintext http — API keys would be exposed
   if (normalized.startsWith('http://')) {
-    console.warn(`⚠️ 中转站URL使用了http://（不安全），已自动替换为https://`);
     normalized = normalized.replace(/^http:\/\//, 'https://');
   }
   return normalized.replace(/\/+$/, '');

@@ -1,6 +1,6 @@
 {
   "name": "relay-radar",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "AI中转站质量监控、模型验真、Token成本优化工具套件 — RelayRadar",
   "private": true,
   "workspaces": [
@@ -14,7 +14,8 @@
     "probe": "node packages/cli/bin/relay-radar.mjs probe",
     "verify": "node packages/cli/bin/relay-radar.mjs verify",
     "rank": "node packages/cli/bin/relay-radar.mjs rank",
-    "analyze": "node packages/cli/bin/relay-radar.mjs analyze"
+    "scan": "node packages/cli/bin/relay-radar.mjs scan",
+    "tips": "node packages/cli/bin/relay-radar.mjs tips"
   },
   "keywords": [
     "claude",
@@ -24,7 +25,7 @@
     "token-optimization",
     "中转站"
   ],
-  "author": "",
+  "author": "RelayRadar Contributors",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"

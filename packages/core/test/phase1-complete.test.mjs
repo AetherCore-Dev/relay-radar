@@ -410,21 +410,12 @@ describe('Config — fromFile error handling', async () => {
 describe('Config — normalizeUrl http:// auto-fix', async () => {
   const { RelayConfig } = await import('../src/config.mjs');
 
-  it('converts http:// to https:// with warning', () => {
-    // Capture console.warn
-    const warnings = [];
-    const origWarn = console.warn;
-    console.warn = (msg) => warnings.push(msg);
-
+  it('silently converts http:// to https://', () => {
     const config = RelayConfig({
       relays: [{ name: 'test', baseUrl: 'http://insecure.relay.com', apiKey: 'k' }],
     });
 
-    console.warn = origWarn;
-
     assert.equal(config.relays[0].baseUrl, 'https://insecure.relay.com');
-    assert.ok(warnings.length > 0, 'should have warned about http://');
-    assert.ok(warnings[0].includes('http://'));
   });
 });
 

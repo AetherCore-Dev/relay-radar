@@ -16,12 +16,12 @@
 
 中国开发者使用 Claude Code 面临严峻问题：
 
-| 痛点 | 数据 |
+| 痛点 | 现象 |
 |------|------|
-| 🎭 模型掺假 | **45.83%** 的中转站用低端模型冒充高端模型 |
+| 🎭 模型掺假 | 部分中转站被测试发现用低端模型冒充高端模型（[来源](https://juejin.cn/post/7616765969831411718)） |
 | 💸 计费不透明 | 偷偷注入System Prompt虚增Token、缓存token按非缓存价收费 |
 | 📉 服务不稳定 | 频繁掉线、限流、封号 |
-| 🔒 密钥泄露 | 2024年某中转站 **5000+ API Key被泄露** |
+| 🔒 密钥泄露 | 中转站安全事件时有发生（[安全预警](https://zone.ci/)） |
 | 💰 成本失控 | 每天开发成本上百元，不知道钱花在哪 |
 
 RelayRadar 帮你解决这些问题：**验真模型、审计计费、优化成本、排名中转站**。
@@ -78,13 +78,13 @@ npx relay-radar ping api.relay-a.com api.relay-b.com
 export RELAY_KEY_A="sk-..."
 
 # 生成配置文件
-relay-radar init
+npx relay-radar init
 
 # 编辑 relay-radar.json，填入中转站信息
 # apiKey 字段使用 ${RELAY_KEY_A} 引用环境变量
 
 # 综合排名（执行前会显示成本预估，需要你确认）
-relay-radar rank
+npx relay-radar rank
 ```
 
 每个消耗Key的命令执行前会显示安全提示：
@@ -245,7 +245,7 @@ relay-radar/
 │   ├── web/                  排名网站（Next.js静态站）
 │   │   ├── app/              4个页面
 │   │   ├── data/             排名数据（JSON）
-│   │   └── out/              构建产物（静态HTML）
+│   │   └── out/              构建产物（gitignored，运行 next build 生成）
 │   └── skills/               Claude Code Skills（4个）
 ├── scripts/                  部署脚本
 └── docs/                     文档
@@ -260,7 +260,7 @@ relay-radar/
 | 层 | 技术 | 理由 |
 |----|------|------|
 | 核心引擎 | Node.js ESM, **零依赖** | 最小化信任面，无供应链风险 |
-| CLI | Node.js `parseArgs` | 内置模块，不需要commander/yargs |
+| CLI | Node.js 手动 argv 解析 | 零依赖，不需要commander/yargs |
 | 测试 | Node.js `node:test` | 内置test runner，不需要jest |
 | 网站 | Next.js 16 + React 19 | 静态导出，可部署到任何CDN |
 | 部署 | GitHub Pages / 阿里云HK | 免费起步，按需升级 |
@@ -373,7 +373,7 @@ cp -r packages/skills/* ~/.claude/skills/
 
 ```bash
 # 克隆项目
-git clone https://github.com/xxx/relay-radar.git
+git clone https://github.com/anthropic-fans/relay-radar.git
 cd relay-radar
 
 # 运行核心引擎测试（零依赖，直接运行）
@@ -396,7 +396,7 @@ node bin/relay-radar.mjs cost claude-opus-4 100000 50000
 ## 免责声明
 
 1. 本工具仅提供技术评测信息，不提供任何API中转服务
-2. 使用第三方API中转服务的合规性由用户自行判断
+2. 使用第三方API中转服务可能违反Anthropic等厂商的服务条款，请自行了解相关风险
 3. 评测数据基于自动化测试，可能与实际体验有差异
 4. 本工具不收集用户的API Key或任何个人身份信息
 5. 排名网站数据由我们自行购买各家服务测试，不收集用户数据

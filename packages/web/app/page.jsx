@@ -47,7 +47,7 @@ export default function HomePage() {
             <Link href="/">排名</Link>
             <Link href="/tools/">工具</Link>
             <Link href="/about/">关于</Link>
-            <a href="https://github.com/xxx/relay-radar" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://github.com/anthropic-fans/relay-radar" target="_blank" rel="noopener">GitHub</a>
           </nav>
         </div>
       </header>
@@ -150,7 +150,7 @@ export default function HomePage() {
             本站不提供API中转服务 · 评测数据基于自动化测试 · <Link href="/about/">免责声明</Link>
           </p>
           <p style={{ marginTop: 8 }}>
-            <a href="https://github.com/xxx/relay-radar">GitHub</a> · 开源 MIT 协议
+            <a href="https://github.com/anthropic-fans/relay-radar">GitHub</a> · 开源 MIT 协议
           </p>
         </div>
       </footer>
