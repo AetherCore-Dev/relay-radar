@@ -11,6 +11,6 @@
     "lint": "echo 'lint ok'"
   },
   "dependencies": {
-    "@relay-radar/core": "workspace:*"
+    "@relay-radar/core": "*"
   }
 }
