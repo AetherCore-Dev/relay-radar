@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run core engine tests
+        working-directory: packages/core
+        run: node --test test/core.test.mjs test/http-client.test.mjs test/fixes.test.mjs test/phase1-complete.test.mjs
+
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install web dependencies
+        working-directory: packages/web
+        run: npm install
+
+      - name: Build static site
+        working-directory: packages/web
+        run: npx next build
+
+      - name: Upload static site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: packages/web/out/
