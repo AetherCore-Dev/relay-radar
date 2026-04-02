@@ -48,6 +48,7 @@ const COMMANDS = {
   // Key-required commands (local only)
   probe:   runProbe,
   verify:  runVerify,
+  monitor: runMonitor,
   rank:    runRank,
   // Utility
   init:    runInit,
@@ -370,6 +371,128 @@ async function runVerify(args) {
   }
 }
 
+async function runMonitor(args) {
+  const config = await loadConfig(args[0]);
+
+  if (config.relays.length === 0) {
+    console.error('❌ 配置中没有中转站。运行 relay-radar init 创建配置。');
+    return;
+  }
+
+  const relay = config.relays[0]; // Monitor the first relay
+  const model = relay.model ?? 'claude-opus-4';
+
+  console.log('');
+  console.log('  ╔═══════════════════════════════════════════════╗');
+  console.log('  ║  🔬 被动行为指纹验证                          ║');
+  console.log('  ║                                               ║');
+  console.log('  ║  原理: 发送正常编程请求，分析响应的文体特征    ║');
+  console.log('  ║  不发送任何特殊探针，中转站无法检测到验证行为  ║');
+  console.log('  ║  越多请求 → 越准确（建议至少20次）            ║');
+  console.log('  ║                                               ║');
+  console.log('  ║  📖 基于: ICLR 2025 序贯假设检验方法          ║');
+  console.log('  ╚═══════════════════════════════════════════════╝');
+  console.log('');
+  console.log(`  中转站: ${relay.name}`);
+  console.log(`  声称模型: ${model}`);
+  console.log('');
+
+  // Estimate cost
+  const numRounds = 20;
+  const tokensPerRound = 300; // normal coding request
+  const totalTokens = numRounds * tokensPerRound;
+  const confirmed = await confirmKeyUsage(1, '🔬 被动行为指纹验证（20轮正常编程请求）', totalTokens);
+  if (!confirmed) { console.log('  已取消。'); return; }
+
+  const { BehavioralVerifier, extractFeatures } = await importCore();
+
+  const verifier = BehavioralVerifier({ claimedModel: model });
+
+  // Normal-looking coding requests (NOT special probes!)
+  const normalRequests = [
+    'Write a function to validate email addresses in JavaScript.',
+    'Explain the difference between let and const in ES6.',
+    'Refactor this: function f(x) { if (x > 0) { return true; } else { return false; } }',
+    'What are the pros and cons of using TypeScript over JavaScript?',
+    'Write a simple Express.js middleware that logs request duration.',
+    'How do I handle errors properly in async/await code?',
+    'Write unit tests for a function that calculates Fibonacci numbers.',
+    'Explain how closures work in JavaScript with an example.',
+    'What is the best way to deep clone an object in JavaScript?',
+    'Write a debounce function from scratch.',
+    'How should I structure a Node.js project with multiple modules?',
+    'Explain the event loop in Node.js and why it matters.',
+    'Write a function that flattens a nested array.',
+    'What are the security best practices for handling user input?',
+    'How do I implement pagination in a REST API?',
+    'Write a simple LRU cache class in JavaScript.',
+    'Explain the difference between SQL and NoSQL databases.',
+    'How do I optimize a slow SQL query with proper indexing?',
+    'Write a function to convert a CSV string to JSON.',
+    'What is the difference between authentication and authorization?',
+  ];
+
+  console.log(`\n  📡 发送${numRounds}个正常编程请求...\n`);
+
+  const { sendRequest } = await importCore();
+
+  for (let i = 0; i < numRounds; i++) {
+    const prompt = normalRequests[i % normalRequests.length];
+    process.stdout.write(`  [${i + 1}/${numRounds}] ${prompt.slice(0, 50)}... `);
+
+    try {
+      const result = await sendRequest(relay, prompt, {
+        timeout: config.probe?.timeout ?? 30000,
+        maxTokens: 500,
+      });
+
+      const status = verifier.update(result.text);
+      const statusIcon = {
+        collecting: '📊',
+        active: status.verdict === 'authentic' ? '✅' :
+                status.verdict === 'suspicious' ? '⚠️' :
+                status.verdict === 'fake' ? '❌' : '🔍',
+      }[status.status] ?? '🔍';
+
+      console.log(`${statusIcon} ${status.verdict ?? 'collecting'} (${result.text.length}字符)`);
+
+      // Show intermediate results every 5 rounds
+      if ((i + 1) % 5 === 0 && status.status === 'active') {
+        console.log(`\n  ── 中间结果 (${i + 1}/${numRounds}) ──`);
+        console.log(`  ${status.message}`);
+        console.log(`  最佳匹配: ${status.bestMatch} (距离: ${status.distanceToClaimed})`);
+        console.log(`  模型距离: ${JSON.stringify(status.distances)}`);
+        console.log('');
+      }
+    } catch (err) {
+      console.log(`❌ ${err.message?.slice(0, 60)}`);
+    }
+  }
+
+  // Final result
+  const final = verifier.getStatus();
+  const profile = verifier.getProfile();
+
+  console.log('\n  ══════════════════════════════════════════════');
+  console.log('  📋 最终验证结果');
+  console.log('  ══════════════════════════════════════════════');
+  console.log(`  ${final.message}`);
+  console.log(`  声称模型: ${final.claimedModel}`);
+  console.log(`  最佳匹配: ${final.bestMatch}`);
+  console.log(`  匹配声称: ${final.matchesClaim ? '✅ 是' : '❌ 否'}`);
+  console.log(`  置信度: ${final.confidence}%`);
+  console.log(`  分析响应数: ${final.n}`);
+  console.log(`  序贯检验: e=${final.eProcess} ${final.alertTriggered ? '⚠️ 已触发警报!' : '正常'}`);
+  console.log(`  模型距离: ${JSON.stringify(final.distances)}`);
+  console.log('  ══════════════════════════════════════════════');
+  console.log('');
+  console.log('  💡 提示:');
+  console.log('  - 置信度会随使用增加而提高');
+  console.log('  - 建议在日常使用中持续监控（Claude Code Session Hook）');
+  console.log('  - 如果显示"inconclusive"，说明数据还不够，继续使用即可');
+  console.log('');
+}
+
 async function runRank(args) {
   const config = await loadConfig(args[0]);
 
@@ -492,11 +615,20 @@ function runHelp() {
   relay-radar cost <model> <in> <out>   计算Token成本
   relay-radar ping <url>   测试中转站连接（不发API请求）
 
-━━ 需要API Key的命令（纯本地运行）━━━━━━━━━━━━━━━━━
+━━ 模型验证（需要API Key，纯本地运行）━━━━━━━━━━━━━━
 
-  relay-radar probe  [config.json]  探测中转站延迟和吞吐量
-  relay-radar verify [config.json]  验证模型真实性（防掺假）
-  relay-radar rank   [config.json]  综合排名（探测+验真+计费）
+  relay-radar monitor [config]  ⭐推荐 被动行为指纹验证
+                                发送正常编程请求，分析响应文体特征
+                                中转站无法检测到验证行为
+                                越多请求越准确
+
+  relay-radar verify  [config]  主动探针验证（LLMmap + 启发式）
+                                快速出结果，但探针可能被识别
+
+━━ 其他命令（需要API Key）━━━━━━━━━━━━━━━━━━━━━━━━
+
+  relay-radar probe  [config]   探测中转站延迟和吞吐量
+  relay-radar rank   [config]   综合排名（探测+验真+计费）
 
   ⚠️ Key通过环境变量传递，用前会提示确认和成本预估。
 
@@ -505,21 +637,20 @@ function runHelp() {
   relay-radar init         生成配置文件
   relay-radar help         显示本帮助
 
-━━ 使用示例 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━ 推荐验证流程 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  # 第一步：看看你花了多少钱
-  relay-radar scan
+  # 1. 测连接（免费，不发API请求）
+  relay-radar ping api.my-relay.com
 
-  # 第二步：了解如何省钱
-  relay-radar tips
-
-  # 第三步：测试中转站连接（无需Key）
-  relay-radar ping api.relay-a.com api.relay-b.com
-
-  # 第四步：深度评估（需要Key，纯本地）
+  # 2. 配置中转站
   export RELAY_KEY_A="sk-..."
   relay-radar init
-  relay-radar rank
+
+  # 3. 被动行为指纹验证（推荐，不可被中转站识别）
+  relay-radar monitor
+
+  # 4. 如果想要快速检测（可能被识别）
+  relay-radar verify
   `);
 }
 
