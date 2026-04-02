@@ -118,7 +118,7 @@ npx relay-radar verify  # 主动探针验证
 npx relay-radar rank    # 综合排名`}
             </pre>
             <p style={{ marginTop: 12 }}>
-              GitHub: <a href="https://github.com/anthropic-fans/relay-radar" target="_blank" rel="noopener">github.com/anthropic-fans/relay-radar</a>
+              GitHub: <a href="https://github.com/AetherCore-Dev/relay-radar" target="_blank" rel="noopener">github.com/AetherCore-Dev/relay-radar</a>
             </p>
           </div>
         </section>

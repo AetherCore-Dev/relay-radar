@@ -610,7 +610,7 @@ function runHelp() {
 🛰️  RelayRadar — AI中转站质量监控工具
 
   本工具完全在本地运行，API Key不会上传到任何地方。
-  源码开源可审计: https://github.com/anthropic-fans/relay-radar
+  源码开源可审计: https://github.com/AetherCore-Dev/relay-radar
 
 ━━ 无需API Key的命令（立即可用）━━━━━━━━━━━━━━━━━━
 

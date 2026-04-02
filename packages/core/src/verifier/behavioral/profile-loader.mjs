@@ -19,7 +19,7 @@ import { homedir } from 'node:os';
 import { MODEL_PROFILES } from './profiles.mjs';
 
 // Default remote URL — override via opts.remoteUrl or RELAY_RADAR_PROFILES_URL env
-const DEFAULT_REMOTE_URL = 'https://anthropic-fans.github.io/relay-radar/data/profiles.json';
+const DEFAULT_REMOTE_URL = 'https://AetherCore-Dev.github.io/relay-radar/data/profiles.json';
 
 const CACHE_DIR = join(homedir(), '.relay-radar');
 const CACHE_FILE = join(CACHE_DIR, 'profiles.json');

@@ -428,7 +428,7 @@ cp -r packages/skills/* ~/.claude/skills/
 
 ```bash
 # 克隆项目
-git clone https://github.com/anthropic-fans/relay-radar.git
+git clone https://github.com/AetherCore-Dev/relay-radar.git
 cd relay-radar
 
 # 运行核心引擎测试（零依赖，直接运行）
