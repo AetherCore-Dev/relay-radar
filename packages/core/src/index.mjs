@@ -11,6 +11,7 @@ export { TokenAnalyzer } from './analyzer/index.mjs';
 export { RelayProber } from './prober/index.mjs';
 export { ModelVerifier } from './verifier/index.mjs';
 export { LLMmapVerifier } from './verifier/llmmap/index.mjs';
+export { BehavioralVerifier, extractFeatures } from './verifier/behavioral/index.mjs';
 export { RelayRanker } from './ranker/index.mjs';
 
 // Configuration
