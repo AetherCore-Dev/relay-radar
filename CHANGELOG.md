@@ -1,5 +1,33 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+## [0.3.0] - 2026-04-02
+
+### 🌐 Phase 2 + Phase 3 — 排名网站 + CI/CD
+
+#### 排名网站 (Phase 2)
+- **首页** — 排名表格：五维评分条、评级标签（推荐/可用/可疑/造假）、价格倍率
+- **详情页** — 统计卡片、五维条形图、SVG趋势图、定价表、功能清单、安全警告
+- **工具页** — 交互式成本计算器：模型切换、日/月估算、直连 vs 中转站价格对比
+- **关于页** — 测试方法论、评分体系、隐私声明、免责声明、CLI工具说明
+- **数据** — 5个模拟中转站（推荐/可用/可疑/造假），7天历史数据
+- **技术** — Next.js 16 静态导出，暗色主题，零外部UI依赖，响应式设计
+
+#### CI/CD (Phase 3)
+- **test.yml** — push/PR 自动运行 107 个核心测试 + 网站构建
+- **deploy.yml** — push 到 main 自动部署到 GitHub Pages
+- **basePath** — 支持 `github.io/relay-radar/` 子路径部署
+- **deploy.sh** — 一键测试+构建+部署准备脚本
+
+#### 文档
+- **PUBLISH-GUIDE.md** — 从零发布的小白操作指南
+- **README.md** — 全面重写，包含产品矩阵、排名体系、安全设计、技术栈说明
+
+#### 修复
+- `page.jsx` 删除 Server Component 中的 onClick（Next.js 16 不允许）
+- 详情页改为 Client Component + useSearchParams + Suspense（静态导出兼容）
+
 ## [0.2.0] - 2026-04-01
 
 ### 🎉 Phase 1 Complete — Core Engine
