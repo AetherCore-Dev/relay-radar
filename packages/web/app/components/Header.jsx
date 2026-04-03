@@ -7,8 +7,8 @@ export default function Header() {
         <Link href="/" className="header-logo">🛰️ RelayRadar</Link>
         <nav className="header-nav">
           <Link href="/">排名</Link>
-          <Link href="/tools/">工具</Link>
-          <Link href="/about/">关于</Link>
+          <Link href="/tools/">算一笔账</Link>
+          <Link href="/about/">怎么测的</Link>
           <a href="https://github.com/AetherCore-Dev/relay-radar" target="_blank" rel="noopener">GitHub</a>
         </nav>
       </div>

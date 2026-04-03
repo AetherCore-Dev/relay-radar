@@ -1,54 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="560" viewBox="0 0 820 560">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="440" viewBox="0 0 720 440">
   <style>
     .bg { fill: #1e1e2e; }
     .bar { fill: #313244; }
     .dot-r { fill: #f38ba8; }
     .dot-y { fill: #f9e2af; }
     .dot-g { fill: #a6e3a1; }
-    .t { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; fill: #cdd6f4; font-size: 13px; }
+    .t { font-family: 'Menlo', 'Cascadia Code', monospace; fill: #cdd6f4; font-size: 13px; }
     .dim { fill: #6c7086; }
     .green { fill: #a6e3a1; }
     .yellow { fill: #f9e2af; }
     .blue { fill: #89b4fa; }
-    .pink { fill: #f5c2e7; }
     .red { fill: #f38ba8; }
-    .bold { font-weight: 700; }
+    .pink { fill: #f5c2e7; }
+    .b { font-weight: 700; }
   </style>
-  <rect class="bg" width="820" height="560" rx="10"/>
-  <rect class="bar" width="820" height="36" rx="10 10 0 0"/>
-  <circle class="dot-r" cx="20" cy="18" r="6"/>
-  <circle class="dot-y" cx="40" cy="18" r="6"/>
-  <circle class="dot-g" cx="60" cy="18" r="6"/>
-  <text class="t dim" x="370" y="22" text-anchor="middle">relay-radar</text>
+  <rect class="bg" width="720" height="440" rx="10"/>
+  <rect class="bar" width="720" height="32" rx="10 10 0 0"/>
+  <circle class="dot-r" cx="18" cy="16" r="5.5"/>
+  <circle class="dot-y" cx="36" cy="16" r="5.5"/>
+  <circle class="dot-g" cx="54" cy="16" r="5.5"/>
+  <text class="t dim" x="360" y="20" text-anchor="middle" font-size="12">Terminal</text>
 
-  <text class="t dim" x="20" y="64">$</text>
-  <text class="t green" x="36" y="64">relay-radar help</text>
+  <!-- Line 1: prompt -->
+  <text class="t dim" x="18" y="58">❯</text>
+  <text class="t green" x="34" y="58">npx relay-radar cost claude-opus-4 100000 50000</text>
 
-  <text class="t yellow bold" x="20" y="96">🛰️  RelayRadar — AI中转站质量监控工具</text>
+  <text class="t yellow b" x="18" y="86">💰 claude-opus-4 成本计算:</text>
+  <text class="t" x="18" y="108">  输入: 100,000 tokens → <tspan class="blue">$1.50</tspan></text>
+  <text class="t" x="18" y="128">  输出: 50,000 tokens  → <tspan class="blue">$3.75</tspan></text>
+  <text class="t dim" x="18" y="148">  ────────────────</text>
+  <text class="t b" x="18" y="168">  总计: <tspan class="green">$5.25</tspan> <tspan class="dim">(≈ ¥38)</tspan></text>
 
-  <text class="t dim" x="20" y="124">  本工具完全在本地运行，API Key不会上传到任何地方。</text>
+  <text class="t" x="18" y="204"></text>
+  <text class="t dim" x="18" y="204">❯</text>
+  <text class="t green" x="34" y="204">npx relay-radar tips</text>
 
-  <text class="t blue bold" x="20" y="156">━━ 无需API Key的命令（立即可用）━━━━━━━━━━━━━━━━━━</text>
+  <text class="t yellow b" x="18" y="232">🧙 Claude Code 省钱秘籍</text>
 
-  <text class="t" x="20" y="180">  relay-radar              <tspan class="dim">自动扫描本地用量</tspan></text>
-  <text class="t" x="20" y="200">  relay-radar scan         <tspan class="dim">扫描本地Claude使用日志</tspan></text>
-  <text class="t" x="20" y="220">  relay-radar tips         <tspan class="dim">查看省钱妙招</tspan></text>
-  <text class="t" x="20" y="240">  relay-radar cost         <tspan class="dim">计算Token成本</tspan></text>
-  <text class="t" x="20" y="260">  relay-radar ping         <tspan class="dim">测试中转站连接（不消耗Token）</tspan></text>
+  <text class="t" x="18" y="258">  1. 🔄 <tspan class="blue">模型路由</tspan> <tspan class="green">(省40-60%)</tspan></text>
+  <text class="t dim" x="18" y="276">     简单任务用 Sonnet，复杂推理用 Opus</text>
 
-  <text class="t blue bold" x="20" y="292">━━ 模型验证（需要API Key，纯本地运行）━━━━━━━━━━━━━━</text>
+  <text class="t" x="18" y="300">  2. 📦 <tspan class="blue">Prompt Cache</tspan> <tspan class="green">(省30-50%)</tspan></text>
+  <text class="t dim" x="18" y="318">     缓存读取仅 1/10 价格</text>
 
-  <text class="t" x="20" y="316">  relay-radar monitor  ⭐  <tspan class="green">被动行为指纹验证</tspan></text>
-  <text class="t dim" x="20" y="336">                          中转站无法检测到验证行为</text>
-  <text class="t" x="20" y="360">  relay-radar verify       <tspan class="yellow">主动探针验证（LLMmap）</tspan></text>
-  <text class="t dim" x="20" y="380">                          快速出结果，但可能被识别</text>
+  <text class="t" x="18" y="342">  3. 🧠 <tspan class="blue">控制 Thinking</tspan> <tspan class="green">(省10-20%)</tspan></text>
+  <text class="t dim" x="18" y="360">     export MAX_THINKING_TOKENS=10000</text>
 
-  <text class="t blue bold" x="20" y="412">━━ 推荐验证流程 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</text>
+  <text class="t" x="18" y="384">  4. ✂️ <tspan class="blue">精简输出</tspan> <tspan class="green">(省15-30%)</tspan></text>
+  <text class="t dim" x="18" y="402">     加 "简洁回复" + max_tokens 限制</text>
 
-  <text class="t dim" x="20" y="436">  # 1. 测连接（免费）</text>
-  <text class="t green" x="20" y="456">  relay-radar ping api.my-relay.com</text>
-  <text class="t dim" x="20" y="480">  # 2. 被动验证（推荐，不可被检测）</text>
-  <text class="t green" x="20" y="500">  relay-radar monitor</text>
-  <text class="t dim" x="20" y="524">  # 3. 快速检测（可选）</text>
-  <text class="t green" x="20" y="544">  relay-radar verify</text>
+  <text class="t pink" x="18" y="430">  不需要API Key，复制粘贴就能用 →</text>
 </svg>

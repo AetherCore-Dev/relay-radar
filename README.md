@@ -1,180 +1,112 @@
 <p align="center">
   <h1 align="center">🛰️ RelayRadar</h1>
-  <p align="center"><strong>AI中转站质量监控 · 模型验真 · 成本优化</strong></p>
-  <p align="center">
-    <a href="https://aethercore-dev.github.io/relay-radar/">🌐 排名网站</a> ·
-    <a href="#快速开始">⚡ 快速开始</a> ·
-    <a href="#模型验真">🔬 验真原理</a> ·
-    <a href="https://github.com/AetherCore-Dev/relay-radar/issues">🐛 反馈</a>
-  </p>
+  <p align="center"><b>你的中转站，用的是真模型吗？</b></p>
   <p align="center">
     <img src="https://img.shields.io/badge/tests-146%2F146-brightgreen" alt="tests" />
-    <img src="https://img.shields.io/badge/zero-dependencies-blue" alt="zero deps" />
+    <img src="https://img.shields.io/badge/zero_dependencies-blue" alt="zero deps" />
     <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT" />
-    <img src="https://img.shields.io/badge/accuracy-98%25-orange" alt="98% accuracy" />
   </p>
 </p>
 
 <p align="center">
-  <img src="./assets/demo-scan.svg" alt="relay-radar help" width="720" />
+  <img src="./assets/demo-scan.svg" alt="relay-radar" width="720" />
 </p>
 
----
+## 一句话
 
-## 这是什么
+帮你检测 Claude Code 中转站是否偷偷换了模型、多收了钱。
 
-中国开发者用 Claude Code，大多通过第三方中转站。但中转站市场水很深：
+**不需要注册，不需要上传，不收集任何数据。** 装好 Node.js，一行命令就能用。
 
-- **模型掺假** — Sonnet冒充Opus，国产模型冒充Claude
-- **计费欺诈** — 偷偷注入System Prompt虚增Token
-- **服务不稳** — 频繁掉线、限流、随机降级
-
-RelayRadar 是一个开源工具，帮你**验真模型、审计计费、对比中转站**。
-
-> ⚠️ 本工具完全在你的机器上运行。不上传数据，不收集Key，源码开源可审计。
-
----
-
-## 快速开始
-
-**零配置，不需要API Key：**
+## 30秒上手
 
 ```bash
-# 扫描本地Claude用量（读取本地日志，不联网）
+# 看看你花了多少钱（扫描本地日志，不联网）
 npx relay-radar scan
 
-# 查看省钱技巧
+# 省钱技巧
 npx relay-radar tips
 
-# 计算Token成本
+# 算一笔账：10万输入 + 5万输出，Opus 要多少钱？
 npx relay-radar cost claude-opus-4 100000 50000
+```
 
-# 测试中转站连接（只测TCP/TLS，不消耗Token）
-npx relay-radar ping api.relay-a.com
+以上命令**不需要API Key**，直接复制粘贴就能跑。
+
+## 检测你的中转站
+
+```bash
+# 1. 先测一下能不能连上（免费，不消耗Token）
+npx relay-radar ping api.你的中转站.com
+
+# 2. 设置你的Key（只存在内存里，不写文件）
+export RELAY_KEY="sk-..."
+npx relay-radar init
+
+# 3. 检测模型是不是真的（推荐，中转站检测不到你在验证）
+npx relay-radar monitor
 ```
 
 <p align="center">
   <img src="./assets/demo-tips.svg" alt="relay-radar tips" width="720" />
 </p>
 
-**验证中转站（需要API Key，纯本地运行）：**
+## 它能发现什么问题？
 
-```bash
-# 设置Key（不会写入任何文件）
-export RELAY_KEY="sk-..."
-
-# 生成配置
-npx relay-radar init
-
-# ⭐ 推荐：被动验证（中转站无法检测到你在验证）
-npx relay-radar monitor
-
-# 快速检测（主动探针，几分钟出结果）
-npx relay-radar verify
-```
-
-每个需要Key的命令会先显示成本预估，**确认后才执行**。
-
----
+| 你遇到的问题 | RelayRadar 怎么检测 |
+|---|---|
+| 买的Opus，给的是Sonnet | 分析响应的行为特征，不同模型"写作风格"不同 |
+| 中转站偷偷注入System Prompt多收钱 | 发个"Hi"，看input tokens是不是异常高 |
+| 有时快有时慢，怀疑随机降级 | 持续监控，统计学方法检测行为漂移 |
+| 不知道哪家中转站靠谱 | 五维评分排名，数据公开透明 |
 
 ## 所有命令
 
-| 命令 | 说明 | 需要Key |
-|------|------|:-------:|
-| `scan` | 扫描本地Claude日志用量 | ❌ |
-| `tips` | 省钱技巧 | ❌ |
-| `cost` | 计算Token成本 | ❌ |
-| `ping` | 测试TCP/TLS连接 | ❌ |
-| `monitor` ⭐ | 被动行为指纹验证 | ✅ |
-| `verify` | 主动探针快速检测 | ✅ |
-| `probe` | 延迟探测 | ✅ |
-| `rank` | 综合排名 | ✅ |
-| `init` | 生成配置文件 | ❌ |
-| `help` | 帮助 | ❌ |
+| 命令 | 做什么 | 要Key吗 |
+|------|--------|:-------:|
+| `scan` | 扫描本地Claude日志，看花了多少 | 不要 |
+| `tips` | 省钱技巧 | 不要 |
+| `cost` | 算Token多少钱 | 不要 |
+| `ping` | 测中转站能不能连上 | 不要 |
+| `monitor` ⭐ | 检测模型是不是真的（推荐） | 要 |
+| `verify` | 快速检测（几分钟出结果） | 要 |
+| `probe` | 测延迟 | 要 |
+| `rank` | 综合排名 | 要 |
 
----
-
-## 模型验真
-
-我们用三层方法检测中转站是否偷偷换了模型：
-
-### 第一层：被动行为指纹 ⭐（`monitor`命令）
-
-> "作业检查，不是考试"
-
-发送正常编程请求，分析响应的文体特征。中转站**无法检测**到你在验证。
-
-- 15维特征提取（响应长度、代码密度、对冲语率、置信度率等）
-- 序贯假设检验（[ICLR 2025](https://arxiv.org/abs/2410.19406)），累积证据达到阈值触发警报
-- Mahalanobis距离匹配最接近的模型画像
-
-### 第二层：LLMmap主动探针（`verify`命令）
-
-8个标准化探测查询（[USENIX Security 2025](https://www.usenix.org/conference/usenixsecurity25)）。速度快，但固定探针可能被中转站识别。
-
-### 第三层：启发式交叉验证
-
-推理深度测试 + 思维陷阱 + 代码质量评估 + TTFT延迟画像。
-
-**三层结果取交集** — 一致判定提升置信度，不一致降级为inconclusive。
-
----
+> 所有需要Key的命令，执行前会告诉你大概花多少钱，你确认了才跑。
 
 ## 排名网站
 
-**👉 [aethercore-dev.github.io/relay-radar](https://aethercore-dev.github.io/relay-radar/)**
+**👉 [在线查看中转站排名](https://aethercore-dev.github.io/relay-radar/)**
 
-我们自行购买各家中转站服务进行测试，评分维度：
+我们自己掏钱买各家中转站服务来测试，按5个维度打分：
 
-| 维度 | 权重 | 说明 |
-|------|:----:|------|
-| 🔬 真实性 | **30%** | 模型指纹验真，98%准确率 |
-| 💰 性价比 | **25%** | Token准确性 + 注入检测 + 定价 |
-| 🛡️ 稳定性 | 20% | 7天错误率 + 可用时间 |
-| ⚡ 延迟 | 15% | TTFT + P50/P95总延迟 |
-| 🔍 透明度 | 10% | 公开定价 + 状态页 + 退款政策 |
+- 🔬 **模型真不真**（权重最高 30%）— 用的真是你买的模型吗？
+- 💰 **收费准不准**（25%）— 有没有多算Token？
+- 🛡️ **稳不稳**（20%）— 会不会动不动就挂？
+- ⚡ **快不快**（15%）— 延迟高不高？
+- 🔍 **透不透明**（10%）— 定价公开吗？有退款吗？
 
-> 排名数据由我们独立测试生成，不收集用户数据，不接受付费排名。
+> 排名数据独立测试生成。不收集用户数据，不接受付费排名。
 
----
+## 验真原理
 
-## 常见欺诈 & 检测方法
+我们用**三层方法**交叉验证，不是只靠一种：
 
-| 欺诈手段 | 检测方法 |
-|----------|----------|
-| Sonnet冒充Opus | 行为指纹：文体特征+响应模式不符 |
-| 国产模型冒充Claude | 15维特征向量与参考画像距离大 |
-| 偷偷注入System Prompt | 发送"Hi"检查input tokens是否异常高 |
-| 缓存token按非缓存价收费 | 对比官方定价计算偏差 |
-| 针对探针做优化 | 行为指纹不可被检测（只分析正常请求） |
+**① 被动指纹（`monitor`，推荐）** — 发正常的编程请求，分析响应的"写作风格"。Opus写东西和Sonnet就是不一样，就像你能分辨两个人写的文章。中转站完全检测不到你在验证。
 
----
+**② 主动探针（`verify`）** — 发8个精心设计的问题（参考 [USENIX Security 2025](https://www.usenix.org/conference/usenixsecurity25) 论文），快速判断模型身份。
 
-## 安全设计
+**③ 启发式检查** — 推理题+代码题+延迟分析，多角度交叉确认。
 
-| | |
-|-|-|
-| 🔑 Key不落盘 | 只从环境变量读取，不写入配置文件 |
-| 🔒 强制HTTPS | 拒绝HTTP，`http://`自动转`https://` |
-| 🛡️ SSRF防护 | 阻止内网地址请求 |
-| 📦 响应限制 | 1MB上限，防止内存耗尽 |
-| 🚫 注入防护 | 过滤ANSI控制符 |
-| ✅ 确认机制 | 显示成本预估，确认后执行 |
-| 📖 全部开源 | 任何人可审查每一行代码 |
+三层结果互相验证。一致→高置信度，矛盾→标记可疑。
 
----
+## 安全
 
-## 技术栈
-
-| 层 | 技术 | 说明 |
-|----|------|------|
-| 核心引擎 | Node.js ESM | **零外部依赖**，无供应链风险 |
-| CLI | 手动argv解析 | 无commander/yargs |
-| 测试 | `node:test` | 146个测试，内置runner |
-| 网站 | Next.js 16 | 静态导出，GitHub Pages |
-| CI/CD | GitHub Actions | push自动测试+部署 |
-
----
+- **Key不落盘** — 只从环境变量读，不写文件
+- **强制HTTPS** — http自动转https
+- **不联网** — scan/tips/cost完全离线
+- **开源** — 每一行代码都能看到
 
 ## 本地开发
 
@@ -182,36 +114,20 @@ npx relay-radar verify
 git clone https://github.com/AetherCore-Dev/relay-radar.git
 cd relay-radar
 
-# 核心引擎测试（零依赖，直接跑）
+# 跑测试（不需要装依赖，核心引擎零依赖）
 cd packages/core && node --test test/*.test.mjs
 
-# 网站开发
+# 跑网站
 cd packages/web && npm install && npx next dev
-
-# CLI开发
-node packages/cli/bin/relay-radar.mjs tips
 ```
-
----
 
 ## 贡献
 
-欢迎PR！特别欢迎：
-
-- 🧪 更多指纹测试题（提高验真准确度）
-- 🌐 更多API格式支持（Azure、Bedrock）
-- 📊 网站改进
-- 🌍 英文文档
-- 🐛 Bug报告
-
----
+欢迎PR！[提Issue](https://github.com/AetherCore-Dev/relay-radar/issues) · [参与讨论](https://github.com/AetherCore-Dev/relay-radar/discussions)
 
 ## 免责声明
 
-1. 本工具仅提供技术评测信息，不提供任何API中转服务
-2. 使用第三方API中转服务可能违反服务提供商条款，请自行了解风险
-3. 评测数据基于自动化测试，可能与实际体验有差异
-4. 不收集用户的API Key或任何个人信息
+本工具仅提供技术评测，不提供API中转服务。使用第三方中转可能违反服务商条款，请自行评估。不收集用户Key或个人信息。
 
 ## License
 

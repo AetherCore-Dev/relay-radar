@@ -90,8 +90,8 @@ async function main() {
 
 /** Default: first-run experience — scan local data, show value immediately */
 async function runDefault() {
-  console.log('\n🛰️  RelayRadar — AI中转站质量监控工具 v0.3.0');
-  console.log('   本工具完全在本地运行，不上传任何数据。\n');
+  console.log('\n🛰️  RelayRadar — 你的中转站，用的是真模型吗？ v0.3.0');
+  console.log('   不上传数据，不收集Key，完全本地运行。\n');
 
   const { LocalScanner } = await importCore();
   const scanner = LocalScanner();
@@ -632,55 +632,43 @@ async function runInit() {
 
 function runHelp() {
   console.log(`
-🛰️  RelayRadar — AI中转站质量监控工具
+🛰️  RelayRadar — 你的中转站，用的是真模型吗？
 
-  本工具完全在本地运行，API Key不会上传到任何地方。
-  源码开源可审计: https://github.com/AetherCore-Dev/relay-radar
+  不上传数据，不收集Key，完全在你的机器上运行。
 
-━━ 无需API Key的命令（立即可用）━━━━━━━━━━━━━━━━━━
+━━ 不需要Key，复制粘贴就能用 ━━━━━━━━━━━━━━━━━━━━
 
-  relay-radar              自动扫描本地用量，首次使用推荐
-  relay-radar scan         扫描本地Claude使用日志，发现省钱机会
-  relay-radar tips         查看省钱妙招
-  relay-radar cost <model> <in> <out>   计算Token成本
-  relay-radar ping <url>   测试中转站连接（不发API请求）
+  relay-radar              看看你花了多少钱
+  relay-radar scan         扫描本地Claude日志
+  relay-radar tips         省钱技巧
+  relay-radar cost <模型> <输入tokens> <输出tokens>
+                           算一笔账
 
-━━ 模型验证（需要API Key，纯本地运行）━━━━━━━━━━━━━━
+  relay-radar ping <url>   测中转站能不能连上
 
-  relay-radar monitor [config]  ⭐推荐 被动行为指纹验证
-                                发送正常编程请求，分析响应文体特征
-                                中转站无法检测到验证行为
-                                越多请求越准确
+━━ 检测你的中转站（需要Key）━━━━━━━━━━━━━━━━━━━━━━
 
-  relay-radar verify  [config]  主动探针验证（LLMmap + 启发式）
-                                快速出结果，但探针可能被识别
+  relay-radar monitor ⭐   检测模型是不是真的（推荐）
+                           发正常请求，分析响应，中转站检测不到
 
-━━ 其他命令（需要API Key）━━━━━━━━━━━━━━━━━━━━━━━━
+  relay-radar verify       快速检测（几分钟出结果）
 
-  relay-radar probe  [config]   探测中转站延迟和吞吐量
-  relay-radar rank   [config]   综合排名（探测+验真+计费）
+  relay-radar probe        测延迟
+  relay-radar rank         综合排名
 
-  ⚠️ Key通过环境变量传递，用前会提示确认和成本预估。
+━━ 从零开始，3步搞定 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━ 工具命令 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 1. 先测一下能不能连上
+  relay-radar ping api.你的中转站.com
 
-  relay-radar init         生成配置文件
-  relay-radar help         显示本帮助
-
-━━ 推荐验证流程 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  # 1. 测连接（免费，不发API请求）
-  relay-radar ping api.my-relay.com
-
-  # 2. 配置中转站
-  export RELAY_KEY_A="sk-..."
+  # 2. 配置Key（只存在内存里）
+  export RELAY_KEY="sk-..."
   relay-radar init
 
-  # 3. 被动行为指纹验证（推荐，不可被中转站识别）
+  # 3. 开始检测
   relay-radar monitor
 
-  # 4. 如果想要快速检测（可能被识别）
-  relay-radar verify
+  所有需要Key的命令，会先告诉你大概花多少钱，确认后才跑。
   `);
 }
 

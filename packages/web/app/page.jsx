@@ -89,26 +89,26 @@ export default function HomePage() {
 
       <main className="container">
         <section className="hero">
-          <h1>AI中转站质量排名</h1>
-          <p className="hero-subtitle">独立第三方评测 · 开源可审计 · 帮你避开造假中转站</p>
-          <span className="update-badge">📅 最近更新: {updatedAt} · 来自: {rankingsData.testServer}</span>
+          <h1>你的中转站，用的是真模型吗？</h1>
+          <p className="hero-subtitle">我们自己掏钱买、自己测、帮你排雷</p>
+          <span className="update-badge">📅 {updatedAt} 更新 · {rankingsData.testServer}</span>
         </section>
 
         <section className="value-prop">
           <h2>自测鉴别真伪，准确度98%</h2>
-          <p className="value-prop-sub">8维行为指纹 · 参考学术论文 · 独立购买实测 · 检测随机换模型</p>
+          <p className="value-prop-sub">发正常请求就能验 · 中转站检测不到 · 数据公开透明</p>
           <div className="value-prop-stats">
             <div className="vp-stat">
               <div className="vp-num">98%</div>
               <div className="vp-label">验真准确率</div>
             </div>
             <div className="vp-stat">
-              <div className="vp-num">8维</div>
-              <div className="vp-label">行为指纹检测</div>
+              <div className="vp-num">隐蔽</div>
+              <div className="vp-label">中转站无法检测</div>
             </div>
             <div className="vp-stat">
-              <div className="vp-num">5项</div>
-              <div className="vp-label">独立评测维度</div>
+              <div className="vp-num">免费</div>
+              <div className="vp-label">开源MIT协议</div>
             </div>
           </div>
         </section>
@@ -117,17 +117,17 @@ export default function HomePage() {
           <div className="findings-grid">
             <div className="finding-card finding-red">
               <div className="finding-icon">🚨</div>
-              <div className="finding-title">{fakeCount}/{total}家 模型可疑</div>
-              <div className="finding-desc">Sonnet冒充Opus、随机降级等</div>
+              <div className="finding-title">{fakeCount}/{total}家 有问题</div>
+              <div className="finding-desc">模型不是你买的那个</div>
             </div>
             <div className="finding-card finding-yellow">
               <div className="finding-icon">💰</div>
-              <div className="finding-title">平均加价 {avgMultiplier}%</div>
-              <div className="finding-desc">相比官方API价格</div>
+              <div className="finding-title">平均贵 {avgMultiplier}%</div>
+              <div className="finding-desc">相比官方价</div>
             </div>
             <div className="finding-card finding-green">
               <div className="finding-icon">🏆</div>
-              <div className="finding-title">最佳性价比</div>
+              <div className="finding-title">最靠谱的</div>
               <div className="finding-desc">{bestRelay.name}</div>
             </div>
           </div>
@@ -217,27 +217,27 @@ export default function HomePage() {
         </div>
 
         <section style={{ padding: '20px 0' }}>
-          <h2 style={{ fontSize: 18, marginBottom: 12 }}>📖 评分说明</h2>
+          <h2 style={{ fontSize: 18, marginBottom: 12 }}>📖 我们怎么打分</h2>
           <div className="radar-grid">
             <div className="stat-card">
-              <h3>🔬 真实性 (30%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>权重最高 — 98%准确率识别模型真伪</p>
+              <h3>🔬 模型真不真 (30%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>你买的Opus，给的真是Opus吗？</p>
             </div>
             <div className="stat-card">
-              <h3>💰 性价比 (25%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>Token准确性 + 注入检测 + 定价合理性</p>
+              <h3>💰 收费准不准 (25%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>有没有偷偷多算Token？</p>
             </div>
             <div className="stat-card">
-              <h3>🛡️ 稳定性 (20%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>7天错误率 + 可用时间</p>
+              <h3>🛡️ 稳不稳 (20%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>会不会动不动就挂？</p>
             </div>
             <div className="stat-card">
-              <h3>⚡ 延迟 (15%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>TTFT + P50/P95总延迟</p>
+              <h3>⚡ 快不快 (15%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>响应速度怎么样？</p>
             </div>
             <div className="stat-card">
-              <h3>🔍 透明度 (10%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>公开定价 + 状态页 + 退款政策</p>
+              <h3>🔍 透不透明 (10%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>定价公开吗？有退款吗？</p>
             </div>
           </div>
         </section>
@@ -247,11 +247,11 @@ export default function HomePage() {
           <div className="mini-rankings-grid">
             {['authenticity', 'pricing', 'stability', 'latency', 'transparency'].map(dim => {
               const labels = {
-                authenticity: '🔬 真实性',
-                pricing: '💰 性价比',
-                stability: '🛡️ 稳定性',
-                latency: '⚡ 延迟',
-                transparency: '🔍 透明度',
+                authenticity: '🔬 最真',
+                pricing: '💰 最省',
+                stability: '🛡️ 最稳',
+                latency: '⚡ 最快',
+                transparency: '🔍 最透明',
               };
               const sorted = [...relays].sort((a, b) => b.dimensions[dim] - a.dimensions[dim]);
               return (
