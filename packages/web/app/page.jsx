@@ -88,7 +88,7 @@ export default function HomePage() {
       <Header />
 
       <main className="container">
-        <div className="demo-banner" style={{ background: 'rgba(249,115,22,0.12)', borderColor: 'var(--orange)' }}>
+        <div className="demo-banner">
           <strong>🚧 演示数据</strong> — 下面的排名是示例，不是真实测试结果。真实数据即将发布。
         </div>
 

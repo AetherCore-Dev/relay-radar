@@ -65,11 +65,12 @@ a:hover { text-decoration: underline; }
   padding: 60px 0 40px;
 }
 .demo-banner {
-  background: rgba(108, 99, 255, 0.1);
-  border: 1px solid var(--accent);
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid var(--orange);
   border-radius: 10px;
   padding: 14px 20px;
   margin-bottom: 24px;
+  margin-top: 20px;
   font-size: 14px;
   color: var(--text);
   text-align: center;
@@ -89,6 +90,7 @@ a:hover { text-decoration: underline; }
   -webkit-text-fill-color: transparent;
 }
 .hero p { color: var(--text-dim); font-size: 16px; max-width: 600px; margin: 0 auto; }
+.hero-subtitle { font-size: 18px !important; color: var(--text) !important; font-weight: 500; margin-top: 8px !important; }
 
 /* Update Badge */
 .update-badge {
@@ -283,9 +285,6 @@ a:hover { text-decoration: underline; }
 
 /* Key findings */
 .findings-grid {
-
-/* Key findings */
-.findings-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
@@ -298,8 +297,9 @@ a:hover { text-decoration: underline; }
   padding: 16px;
   text-align: center;
 }
-.finding-card .finding-num {
-  font-size: 24px;
+.finding-card .finding-icon { font-size: 28px; margin-bottom: 6px; }
+.finding-card .finding-title {
+  font-size: 18px;
   font-weight: 800;
   margin-bottom: 4px;
 }
@@ -307,9 +307,9 @@ a:hover { text-decoration: underline; }
   font-size: 12px;
   color: var(--text-dim);
 }
-.finding-red .finding-num { color: var(--red); }
-.finding-yellow .finding-num { color: var(--yellow); }
-.finding-green .finding-num { color: var(--green); }
+.finding-red .finding-title { color: var(--red); }
+.finding-yellow .finding-title { color: var(--yellow); }
+.finding-green .finding-title { color: var(--green); }
 
 /* Sortable table headers */
 .sortable-th {
