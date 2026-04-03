@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import rankingsData from '../../data/rankings.json';
 
 function getScoreColor(score) {
@@ -108,16 +110,7 @@ function RelayDetailContent() {
 
   return (
     <>
-      <header className="header">
-        <div className="container">
-          <Link href="/" className="header-logo">🛰️ RelayRadar</Link>
-          <nav className="header-nav">
-            <Link href="/">排名</Link>
-            <Link href="/tools/">工具</Link>
-            <Link href="/about/">关于</Link>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       <main className="container">
         <div className="detail-header">
@@ -152,7 +145,7 @@ function RelayDetailContent() {
         </div>
 
         {/* Dimensions */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, margin: '32px 0' }}>
+        <div className="detail-2col">
           <div className="stat-card">
             <h3 style={{ marginBottom: 16 }}>📊 五维评分</h3>
             <DimensionBar label="⚡ 延迟" score={relay.dimensions.latency} />
@@ -181,6 +174,29 @@ function RelayDetailContent() {
           <PricingTable pricing={relay.pricing} />
         </div>
 
+        {/* 支持模型 */}
+        <div className="stat-card" style={{ margin: '24px 0' }}>
+          <h3 style={{ marginBottom: 16 }}>🤖 支持模型</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {d.modelsAvailable?.map((modelId, i) => (
+              <div key={i} style={{
+                background: 'var(--bg)',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                padding: '10px 16px',
+                fontSize: 13,
+              }}>
+                <div style={{ fontWeight: 700, marginBottom: 4 }}>{modelId}</div>
+                {relay.pricing?.[modelId] && (
+                  <div style={{ fontSize: 11, color: 'var(--text-dim)' }}>
+                    输入 ${relay.pricing[modelId].input}/M · 输出 ${relay.pricing[modelId].output}/M
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Features */}
         <div className="stat-card" style={{ margin: '24px 0' }}>
           <h3 style={{ marginBottom: 12 }}>📋 功能与透明度</h3>
@@ -204,11 +220,7 @@ function RelayDetailContent() {
         </div>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <p>RelayRadar — 独立第三方AI中转站质量评测 · <Link href="/about/">免责声明</Link></p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

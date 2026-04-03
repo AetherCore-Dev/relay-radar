@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#6c63ff"/>
+  <text x="600" y="240" text-anchor="middle" font-family="system-ui, sans-serif" font-size="72" font-weight="800" fill="#e4e4ed">🛰️ RelayRadar</text>
+  <text x="600" y="320" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#8888a0">AI中转站质量排名</text>
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#22c55e">✅ 模型验真准确度98% · 独立第三方评测</text>
+  <text x="600" y="460" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#6c63ff">8维行为指纹 · 参考学术论文 · 检测随机换模型 · 计费审计</text>
+  <rect x="0" y="626" width="1200" height="4" fill="#6c63ff"/>
+</svg>

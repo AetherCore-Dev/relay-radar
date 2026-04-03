@@ -57,7 +57,7 @@
       "id": "relay-beta",
       "name": "Beta Transit",
       "url": "beta-transit.example.com",
-      "overallScore": 73,
+      "overallScore": 71,
       "verdict": "👍 可用",
       "dimensions": {
         "latency": 78,
@@ -106,7 +106,7 @@
       "id": "relay-gamma",
       "name": "Gamma API",
       "url": "gamma-api.example.com",
-      "overallScore": 61,
+      "overallScore": 65,
       "verdict": "👍 可用",
       "dimensions": {
         "latency": 85,
@@ -156,7 +156,7 @@
       "id": "relay-delta",
       "name": "Delta Proxy",
       "url": "delta-proxy.example.com",
-      "overallScore": 31,
+      "overallScore": 43,
       "verdict": "🚫 模型造假",
       "dimensions": {
         "latency": 70,

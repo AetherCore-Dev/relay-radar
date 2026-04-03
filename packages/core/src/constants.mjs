@@ -158,11 +158,11 @@ export const FINGERPRINT_QUESTIONS = Object.freeze([
 
 /** Scoring weights for final ranking */
 export const RANKING_WEIGHTS = Object.freeze({
-  latency: 0.20,        // Average response time
+  latency: 0.15,        // Average response time
   stability: 0.20,      // Uptime, error rate
-  authenticity: 0.25,   // Model verification score
-  pricing: 0.20,        // Cost competitiveness
-  transparency: 0.15,   // Honest billing, no hidden charges
+  authenticity: 0.30,   // Model verification score
+  pricing: 0.25,        // Cost competitiveness
+  transparency: 0.10,   // Honest billing, no hidden charges
 });
 
 /** Probe config defaults */
