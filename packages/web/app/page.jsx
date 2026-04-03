@@ -94,8 +94,8 @@ export default function HomePage() {
 
         <section className="hero">
           <h1>你买的Opus，真的是Opus吗？</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8 }}>中转站 = 帮你转发 Claude / GPT 等模型API请求的第三方服务</p>
-          <p className="hero-subtitle">独立第三方检测 · 鉴别模型真假 · 揪出多收的钱</p>
+          <div className="explainer-card">💡 中转站 = 帮你转发 AI 模型请求的第三方服务。国内用户常通过中转站访问 Claude 和 GPT。</div>
+          <p className="hero-subtitle">帮你验模型真假 · 揪出偷偷多收的钱 · 独立第三方</p>
           <span className="update-badge">📅 {updatedAt} 更新 · {rankingsData.testServer}</span>
         </section>
 
@@ -104,16 +104,16 @@ export default function HomePage() {
             <div className="vp-card">
               <div className="vp-card-icon">🔬</div>
               <div className="vp-card-title">模型是真的吗？</div>
-              <div className="vp-card-desc">你付了Opus的钱，中转站可能给你Sonnet。我们用行为指纹检测，准确率98%。</div>
+              <div className="vp-card-desc">付了Opus的钱，收到的却是Sonnet。行为指纹一测便知。</div>
               <div className="vp-card-detail">
-                <span className="vp-badge vp-badge-green">98% 准确率</span>
+                <span className="vp-badge vp-badge-green">盲测准确率 98%</span>
                 <span className="vp-badge">参考 <a href="https://www.usenix.org/conference/usenixsecurity25" target="_blank" rel="noopener">USENIX Security 2025</a></span>
               </div>
             </div>
             <div className="vp-card">
               <div className="vp-card-icon">💰</div>
               <div className="vp-card-title">有没有多收钱？</div>
-              <div className="vp-card-desc">偷偷注入System Prompt虚增Token、缓存按原价收费。我们逐笔审计。</div>
+              <div className="vp-card-desc">偷注Prompt虚增Token、缓存按原价收费？逐笔审计，一笔不漏。</div>
               <div className="vp-card-detail">
                 <span className="vp-badge vp-badge-yellow">逐笔审计</span>
                 <span className="vp-badge">参考 <a href="https://arxiv.org/abs/2410.19406" target="_blank" rel="noopener">ICLR 2025</a></span>
@@ -121,7 +121,7 @@ export default function HomePage() {
             </div>
           </div>
           <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 16, textAlign: 'center' }}>
-            支持检测：Claude Opus 4 · Sonnet 4 · Haiku 3.5 · GPT-4o · 国产模型
+            支持检测：Claude Opus 4 · Sonnet 4 · Haiku 3.5 · GPT-4o（更多持续添加）
           </p>
         </section>
 
@@ -210,7 +210,7 @@ export default function HomePage() {
                     <ScoreCell label="真实" value={relay.dimensions.authenticity} />
                     <ScoreCell label="计费" value={relay.dimensions.pricing} />
                     <td>
-                      <div className="dim-value">
+                      <div className="dim-value" title={relay.details.pricingMultiplier <= 1 ? '低于官方定价，可能存在模型替换风险' : ''}>
                         {relay.details.pricingMultiplier <= 1 ? '⚠️ ' : ''}
                         {Math.round(relay.details.pricingMultiplier * 100)}%
                       </div>
@@ -227,24 +227,24 @@ export default function HomePage() {
           <h2 style={{ fontSize: 18, marginBottom: 12 }}>📖 我们怎么打分</h2>
           <div className="radar-grid">
             <div className="stat-card">
-              <h3>🔬 模型真不真 (30%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>你买的Opus，给的真是Opus吗？</p>
+              <h3>🔬 模型真假 (30%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>付了Opus，给的真是Opus？</p>
             </div>
             <div className="stat-card">
-              <h3>💰 收费准不准 (25%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>有没有偷偷多算Token？</p>
+              <h3>💰 计费准确度 (25%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>Token计数有没有虚增？</p>
             </div>
             <div className="stat-card">
-              <h3>🛡️ 稳不稳 (20%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>会不会动不动就挂？</p>
+              <h3>🛡️ 服务稳定性 (20%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>7天可用率实测</p>
             </div>
             <div className="stat-card">
-              <h3>⚡ 快不快 (15%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>响应速度怎么样？</p>
+              <h3>⚡ 响应速度 (15%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>首字延迟 + 吞吐量</p>
             </div>
             <div className="stat-card">
-              <h3>🔍 透不透明 (10%)</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>定价公开吗？有退款吗？</p>
+              <h3>🔍 运营透明度 (10%)</h3>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>公开定价、状态页、退款政策</p>
             </div>
           </div>
         </section>
@@ -280,8 +280,8 @@ export default function HomePage() {
         </section>
 
         <section className="cta-section">
-          <h2 style={{ fontSize: 22, marginBottom: 8 }}>想验一下你的中转站？</h2>
-          <p style={{ color: 'var(--text-dim)', marginBottom: 20, fontSize: 14 }}>一行命令，不需要注册，几分钟出结果</p>
+          <h2 style={{ fontSize: 22, marginBottom: 8 }}>现在就验你的中转站</h2>
+          <p style={{ color: 'var(--text-dim)', marginBottom: 20, fontSize: 14 }}>一行命令，零注册</p>
           <div className="cta-methods">
             <div className="cta-method">
               <div className="cta-method-badge" style={{ color: 'var(--green)' }}>⭐ 推荐</div>

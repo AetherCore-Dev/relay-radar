@@ -91,6 +91,16 @@ a:hover { text-decoration: underline; }
 }
 .hero p { color: var(--text-dim); font-size: 16px; max-width: 600px; margin: 0 auto; }
 .hero-subtitle { font-size: 18px !important; color: var(--text) !important; font-weight: 500; margin-top: 8px !important; }
+.explainer-card {
+  display: inline-block;
+  background: rgba(108,99,255,0.08);
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
 
 /* Update Badge */
 .update-badge {

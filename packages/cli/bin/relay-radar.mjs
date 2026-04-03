@@ -65,7 +65,12 @@ async function main() {
     return;
   }
   if (command === '--version' || command === '-v') {
-    console.log('relay-radar v0.3.0');
+    try {
+      const pkg = JSON.parse(await readFile(join(__dirname, '..', 'package.json'), 'utf-8'));
+      console.log(`relay-radar v${pkg.version}`);
+    } catch {
+      console.log('relay-radar v0.3.0');
+    }
     return;
   }
 
@@ -223,7 +228,7 @@ async function runCost(args) {
 
 async function runTips() {
   console.log(`
-🧙 Claude Code 省钱秘籍（不需要API Key即可查看）
+🧙 Claude Code 省钱秘籍
 ════════════════════════════════════════
 
 1. 🔄 模型路由 (节省40-60%)
