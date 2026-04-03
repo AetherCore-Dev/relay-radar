@@ -1,7 +1,7 @@
 {
   "name": "@relay-radar/core",
   "version": "0.3.0",
-  "description": "Core engine: relay probing, model verification, token analysis",
+  "description": "Core engine: relay probing, model verification, token analysis — zero dependencies",
   "type": "module",
   "main": "src/index.mjs",
   "exports": {
@@ -11,6 +11,18 @@
     "./analyzer": "./src/analyzer/index.mjs",
     "./ranker": "./src/ranker/index.mjs"
   },
+  "files": [
+    "src/"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AetherCore-Dev/relay-radar.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
   "scripts": {
     "test": "node --test test/**/*.test.mjs",
     "lint": "echo 'lint ok'"

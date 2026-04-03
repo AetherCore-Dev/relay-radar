@@ -58,6 +58,17 @@ const COMMANDS = {
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0] ?? '';
+
+  // Standard --help / -h / --version / -v flags
+  if (command === '--help' || command === '-h') {
+    runHelp();
+    return;
+  }
+  if (command === '--version' || command === '-v') {
+    console.log('relay-radar v0.3.0');
+    return;
+  }
+
   const handler = COMMANDS[command] ?? COMMANDS[''];
 
   if (command && !COMMANDS[command]) {
@@ -277,8 +288,12 @@ async function loadConfig(configPath) {
 }
 
 /** Shared: show trust message + cost estimate + ask confirmation */
-async function confirmKeyUsage(relayCount, action, estimatedTokens) {
-  const costUsd = (estimatedTokens / 1_000_000) * 3; // Sonnet pricing as baseline
+async function confirmKeyUsage(relayCount, action, estimatedTokens, model) {
+  // Use actual model pricing when available
+  const pricePerMToken = model && /opus/i.test(model) ? 15
+    : model && /haiku/i.test(model) ? 0.8
+    : 3; // Sonnet as default
+  const costUsd = (estimatedTokens / 1_000_000) * pricePerMToken;
   const costCny = costUsd * 7.25;
 
   console.log('');
@@ -351,7 +366,8 @@ async function runVerify(args) {
   const confirmed = await confirmKeyUsage(
     config.relays.length,
     '🔬 验证模型真实性',
-    totalTokens
+    totalTokens,
+    config.relays[0]?.model
   );
   if (!confirmed) { console.log('  已取消。'); return; }
 
@@ -364,7 +380,11 @@ async function runVerify(args) {
     try {
       const result = await verifier.verify(relay);
       console.log(`  ${result.summary}`);
-      console.log(`  评分: opus=${result.scores.opus}% sonnet=${result.scores.sonnet}% haiku=${result.scores.haiku}%`);
+      if (result.scores) {
+        console.log(`  评分: opus=${result.scores.opus}% sonnet=${result.scores.sonnet}% haiku=${result.scores.haiku}%`);
+      } else if (result.llmmap) {
+        console.log(`  LLMmap: ${result.predictedModel} (置信度${result.confidence}%)`);
+      }
     } catch (err) {
       console.log(`  ❌ 验证失败: ${err.message}`);
     }
@@ -382,6 +402,11 @@ async function runMonitor(args) {
 
   const relay = config.relays[0]; // Monitor the first relay
   const model = relay.model ?? 'claude-opus-4';
+
+  if (config.relays.length > 1) {
+    console.log(`\n  ⚠️  配置中有 ${config.relays.length} 个中转站，当前监控第1个: ${relay.name}`);
+    console.log('     如需监控其他中转站，调整配置文件中的顺序。');
+  }
 
   console.log('');
   console.log('  ╔═══════════════════════════════════════════════╗');
@@ -402,7 +427,7 @@ async function runMonitor(args) {
   const numRounds = 20;
   const tokensPerRound = 300; // normal coding request
   const totalTokens = numRounds * tokensPerRound;
-  const confirmed = await confirmKeyUsage(1, '🔬 被动行为指纹验证（20轮正常编程请求）', totalTokens);
+  const confirmed = await confirmKeyUsage(1, '🔬 被动行为指纹验证（20轮正常编程请求）', totalTokens, model);
   if (!confirmed) { console.log('  已取消。'); return; }
 
   const { BehavioralVerifier, loadProfiles, sendRequest } = await importCore();

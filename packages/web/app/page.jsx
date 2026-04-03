@@ -55,9 +55,14 @@ export default function HomePage() {
       <main className="container">
         <section className="hero">
           <h1>AI中转站质量排名</h1>
-          <p>独立第三方评测 · 数据每日自动更新 · 多维度综合评分</p>
+          <p>独立第三方评测 · 多维度综合评分 · 开源可审计</p>
           <span className="update-badge">📅 最近更新: {updatedAt} · 来自: {rankingsData.testServer}</span>
         </section>
+
+        <div className="demo-banner">
+          <strong>📋 演示数据</strong> — 以下为系统功能演示，非真实中转站排名。
+          真实评测数据即将上线，您也可以运行 <code>npx relay-radar rank</code> 评测自己的中转站。
+        </div>
 
         <table className="ranking-table">
           <thead>

@@ -64,6 +64,22 @@ a:hover { text-decoration: underline; }
   text-align: center;
   padding: 60px 0 40px;
 }
+.demo-banner {
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--text);
+  text-align: center;
+}
+.demo-banner code {
+  background: rgba(255,255,255,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
 .hero h1 {
   font-size: 36px;
   font-weight: 800;
