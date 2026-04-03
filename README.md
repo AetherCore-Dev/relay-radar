@@ -61,13 +61,22 @@ npx relay-radar cost claude-opus-4 100000 50000
 # 1. 测一下能不能连上（免费，不消耗Token）
 npx relay-radar ping api.你的中转站.com
 
-# 2. 设置Key（从你的中转站后台复制API Key）
+# 2. 配置中转站地址和Key
 # macOS / Linux:
 export RELAY_KEY="sk-你从中转站复制的key"
 # Windows PowerShell:
 $env:RELAY_KEY="sk-你从中转站复制的key"
 
 npx relay-radar init
+# 然后编辑生成的 relay-radar.json，填入中转站地址：
+# {
+#   "relays": [{
+#     "name": "我的中转站",
+#     "baseUrl": "https://api.你的中转站.com",
+#     "apiKey": "${RELAY_KEY}",
+#     "model": "claude-opus-4"
+#   }]
+# }
 
 # 3. 开始检测
 npx relay-radar monitor

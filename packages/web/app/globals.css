@@ -443,6 +443,70 @@ a:hover { text-decoration: underline; }
   color: var(--accent);
 }
 
+/* Dashboard */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 8px;
+}
+.upload-area-active {
+  border-color: var(--accent);
+  background: rgba(108,99,255,0.06);
+}
+.upload-btn {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 4px 14px;
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 140px;
+  padding-bottom: 20px;
+  position: relative;
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+}
+.bar-value {
+  width: 100%;
+  min-width: 4px;
+  max-width: 24px;
+  border-radius: 3px 3px 0 0;
+  transition: height 0.3s ease;
+}
+.bar-col:hover .bar-value { opacity: 0.8; }
+.bar-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  white-space: nowrap;
+  position: absolute;
+  bottom: -16px;
+}
+.bar-label-dim { opacity: 0.5; }
+
 /* CTA section */
 .cta-section {
   text-align: center;
@@ -475,6 +539,8 @@ a:hover { text-decoration: underline; }
   .detail-2col { grid-template-columns: 1fr; }
   .mini-rankings-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
   .input-grid-2col { grid-template-columns: 1fr; }
+  .dashboard-stats { grid-template-columns: 1fr 1fr; }
+  .bar-label { font-size: 8px; }
 }
 
 /* ─── Mobile: Phone ─── */
@@ -491,6 +557,7 @@ a:hover { text-decoration: underline; }
   .findings-grid { gap: 8px; }
   .finding-card { padding: 12px; }
   .finding-card .finding-num { font-size: 20px; }
+  .dashboard-stats { grid-template-columns: 1fr 1fr; }
   .mini-rankings-grid { grid-template-columns: 1fr 1fr; }
 }
 
