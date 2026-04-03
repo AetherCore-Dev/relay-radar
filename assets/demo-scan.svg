@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="560" viewBox="0 0 820 560">
+  <style>
+    .bg { fill: #1e1e2e; }
+    .bar { fill: #313244; }
+    .dot-r { fill: #f38ba8; }
+    .dot-y { fill: #f9e2af; }
+    .dot-g { fill: #a6e3a1; }
+    .t { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; fill: #cdd6f4; font-size: 13px; }
+    .dim { fill: #6c7086; }
+    .green { fill: #a6e3a1; }
+    .yellow { fill: #f9e2af; }
+    .blue { fill: #89b4fa; }
+    .pink { fill: #f5c2e7; }
+    .red { fill: #f38ba8; }
+    .bold { font-weight: 700; }
+  </style>
+  <rect class="bg" width="820" height="560" rx="10"/>
+  <rect class="bar" width="820" height="36" rx="10 10 0 0"/>
+  <circle class="dot-r" cx="20" cy="18" r="6"/>
+  <circle class="dot-y" cx="40" cy="18" r="6"/>
+  <circle class="dot-g" cx="60" cy="18" r="6"/>
+  <text class="t dim" x="370" y="22" text-anchor="middle">relay-radar</text>
+
+  <text class="t dim" x="20" y="64">$</text>
+  <text class="t green" x="36" y="64">relay-radar help</text>
+
+  <text class="t yellow bold" x="20" y="96">🛰️  RelayRadar — AI中转站质量监控工具</text>
+
+  <text class="t dim" x="20" y="124">  本工具完全在本地运行，API Key不会上传到任何地方。</text>
+
+  <text class="t blue bold" x="20" y="156">━━ 无需API Key的命令（立即可用）━━━━━━━━━━━━━━━━━━</text>
+
+  <text class="t" x="20" y="180">  relay-radar              <tspan class="dim">自动扫描本地用量</tspan></text>
+  <text class="t" x="20" y="200">  relay-radar scan         <tspan class="dim">扫描本地Claude使用日志</tspan></text>
+  <text class="t" x="20" y="220">  relay-radar tips         <tspan class="dim">查看省钱妙招</tspan></text>
+  <text class="t" x="20" y="240">  relay-radar cost         <tspan class="dim">计算Token成本</tspan></text>
+  <text class="t" x="20" y="260">  relay-radar ping         <tspan class="dim">测试中转站连接（不消耗Token）</tspan></text>
+
+  <text class="t blue bold" x="20" y="292">━━ 模型验证（需要API Key，纯本地运行）━━━━━━━━━━━━━━</text>
+
+  <text class="t" x="20" y="316">  relay-radar monitor  ⭐  <tspan class="green">被动行为指纹验证</tspan></text>
+  <text class="t dim" x="20" y="336">                          中转站无法检测到验证行为</text>
+  <text class="t" x="20" y="360">  relay-radar verify       <tspan class="yellow">主动探针验证（LLMmap）</tspan></text>
+  <text class="t dim" x="20" y="380">                          快速出结果，但可能被识别</text>
+
+  <text class="t blue bold" x="20" y="412">━━ 推荐验证流程 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</text>
+
+  <text class="t dim" x="20" y="436">  # 1. 测连接（免费）</text>
+  <text class="t green" x="20" y="456">  relay-radar ping api.my-relay.com</text>
+  <text class="t dim" x="20" y="480">  # 2. 被动验证（推荐，不可被检测）</text>
+  <text class="t green" x="20" y="500">  relay-radar monitor</text>
+  <text class="t dim" x="20" y="524">  # 3. 快速检测（可选）</text>
+  <text class="t green" x="20" y="544">  relay-radar verify</text>
+</svg>

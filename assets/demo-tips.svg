@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520">
+  <style>
+    .bg { fill: #1e1e2e; }
+    .bar { fill: #313244; }
+    .dot-r { fill: #f38ba8; }
+    .dot-y { fill: #f9e2af; }
+    .dot-g { fill: #a6e3a1; }
+    .t { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; fill: #cdd6f4; font-size: 13px; }
+    .dim { fill: #6c7086; }
+    .green { fill: #a6e3a1; }
+    .yellow { fill: #f9e2af; }
+    .blue { fill: #89b4fa; }
+    .pink { fill: #f5c2e7; }
+  </style>
+  <rect class="bg" width="820" height="520" rx="10"/>
+  <rect class="bar" width="820" height="36" rx="10 10 0 0"/>
+  <circle class="dot-r" cx="20" cy="18" r="6"/>
+  <circle class="dot-y" cx="40" cy="18" r="6"/>
+  <circle class="dot-g" cx="60" cy="18" r="6"/>
+  <text class="t dim" x="370" y="22" text-anchor="middle">relay-radar tips</text>
+
+  <text class="t dim" x="20" y="64">$</text>
+  <text class="t green" x="36" y="64">relay-radar tips</text>
+
+  <text class="t yellow" x="20" y="96">🧙 Claude Code 省钱秘籍</text>
+  <text class="t dim" x="20" y="112">════════════════════════════════════════</text>
+
+  <text class="t" x="20" y="140">1. 🔄 <tspan class="blue">模型路由</tspan> <tspan class="green">(节省40-60%)</tspan></text>
+  <text class="t dim" x="20" y="160">   简单任务用 Sonnet, 复杂推理用 Opus</text>
+
+  <text class="t" x="20" y="188">2. 📦 <tspan class="blue">Prompt Cache</tspan> <tspan class="green">(节省30-50%)</tspan></text>
+  <text class="t dim" x="20" y="208">   缓存读取价格仅为正常价的 1/10</text>
+  <text class="t dim" x="20" y="228">   Opus: $15/M → 缓存$1.5/M</text>
+
+  <text class="t" x="20" y="256">3. ✂️ <tspan class="blue">精简输出</tspan> <tspan class="green">(节省15-30%)</tspan></text>
+  <text class="t dim" x="20" y="276">   prompt中加 "简洁回复" + max_tokens限制</text>
+
+  <text class="t" x="20" y="304">4. 🧠 <tspan class="blue">控制 Thinking</tspan> <tspan class="green">(节省10-20%)</tspan></text>
+  <text class="t dim" x="20" y="324">   export MAX_THINKING_TOKENS=10000</text>
+
+  <text class="t" x="20" y="352">5. 📦 <tspan class="blue">Batch API</tspan> <tspan class="green">(节省50%)</tspan></text>
+  <text class="t dim" x="20" y="372">   非实时任务用 Batch API，价格减半</text>
+
+  <text class="t" x="20" y="400">6. 🔍 <tspan class="blue">上下文管理</tspan> <tspan class="green">(节省20-30%)</tspan></text>
+  <text class="t dim" x="20" y="420">   使用 /compact 压缩 + .claudeignore</text>
+
+  <text class="t dim" x="20" y="452">════════════════════════════════════════</text>
+  <text class="t pink" x="20" y="476">  运行 relay-radar scan 分析你的实际使用数据</text>
+  <text class="t pink" x="20" y="496">  运行 relay-radar cost &lt;model&gt; &lt;in&gt; &lt;out&gt; 计算成本</text>
+</svg>
