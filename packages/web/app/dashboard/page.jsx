@@ -6,9 +6,18 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const MODEL_PRICING = {
-  'claude-opus-4': { name: 'Opus 4', input: 15, output: 75, color: '#6c63ff' },
-  'claude-sonnet-4': { name: 'Sonnet 4', input: 3, output: 15, color: '#48c6ef' },
-  'claude-3.5-haiku': { name: 'Haiku 3.5', input: 0.8, output: 4, color: '#22c55e' },
+  // Claude Opus 系列
+  'claude-opus-4.6': { name: 'Opus 4.6', input: 5, output: 25, cacheRead: 0.5, color: '#6c63ff' },
+  'claude-opus-4.5': { name: 'Opus 4.5', input: 5, output: 25, cacheRead: 0.5, color: '#6c63ff' },
+  'claude-opus-4': { name: 'Opus 4', input: 15, output: 75, cacheRead: 1.5, color: '#8b82ff' },
+  // Claude Sonnet 系列
+  'claude-sonnet-4.6': { name: 'Sonnet 4.6', input: 3, output: 15, cacheRead: 0.3, color: '#48c6ef' },
+  'claude-sonnet-4.5': { name: 'Sonnet 4.5', input: 3, output: 15, cacheRead: 0.3, color: '#48c6ef' },
+  'claude-sonnet-4': { name: 'Sonnet 4', input: 3, output: 15, cacheRead: 0.3, color: '#5ad4f7' },
+  // Claude Haiku 系列
+  'claude-haiku-4.5': { name: 'Haiku 4.5', input: 1, output: 5, cacheRead: 0.1, color: '#22c55e' },
+  'claude-haiku-3.5': { name: 'Haiku 3.5', input: 0.8, output: 4, cacheRead: 0.08, color: '#34d672' },
+  'claude-3.5-haiku': { name: 'Haiku 3.5', input: 0.8, output: 4, cacheRead: 0.08, color: '#34d672' },
 };
 
 const CNY_RATE = 7.25;
@@ -71,13 +80,13 @@ function generateDemoData() {
     const sonnetCount = Math.floor(Math.random() * 25) + 10;
     const haikuCount = Math.floor(Math.random() * 10);
     for (let j = 0; j < opusCount; j++) {
-      days.push({ date: dateStr, model: 'claude-opus-4', inputTokens: Math.floor(Math.random() * 8000) + 2000, outputTokens: Math.floor(Math.random() * 4000) + 500 });
+      days.push({ date: dateStr, model: 'claude-opus-4.6', inputTokens: Math.floor(Math.random() * 8000) + 2000, outputTokens: Math.floor(Math.random() * 4000) + 500 });
     }
     for (let j = 0; j < sonnetCount; j++) {
-      days.push({ date: dateStr, model: 'claude-sonnet-4', inputTokens: Math.floor(Math.random() * 6000) + 1000, outputTokens: Math.floor(Math.random() * 3000) + 300 });
+      days.push({ date: dateStr, model: 'claude-sonnet-4.6', inputTokens: Math.floor(Math.random() * 6000) + 1000, outputTokens: Math.floor(Math.random() * 3000) + 300 });
     }
     for (let j = 0; j < haikuCount; j++) {
-      days.push({ date: dateStr, model: 'claude-3.5-haiku', inputTokens: Math.floor(Math.random() * 3000) + 500, outputTokens: Math.floor(Math.random() * 1500) + 200 });
+      days.push({ date: dateStr, model: 'claude-haiku-4.5', inputTokens: Math.floor(Math.random() * 3000) + 500, outputTokens: Math.floor(Math.random() * 1500) + 200 });
     }
   }
   return days;
@@ -124,9 +133,9 @@ export default function DashboardPage() {
   const budgetPct = Math.round((monthCny / budget) * 100);
 
   // Find potential savings: Opus requests that could use Sonnet
-  const opusData = byModel.find(m => m.model === 'claude-opus-4');
+  const opusData = byModel.find(m => m.model.includes('opus'));
   const potentialSavings = opusData
-    ? (opusData.inputTokens / 1_000_000) * (15 - 3) + (opusData.outputTokens / 1_000_000) * (75 - 15)
+    ? (opusData.inputTokens / 1_000_000) * (5 - 3) + (opusData.outputTokens / 1_000_000) * (25 - 15)
     : 0;
   const savingsPercent = monthTotal > 0 ? Math.round((potentialSavings / monthTotal) * 100) : 0;
 

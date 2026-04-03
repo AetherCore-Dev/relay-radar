@@ -294,8 +294,10 @@ async function loadConfig(configPath) {
 
 /** Shared: show trust message + cost estimate + ask confirmation */
 async function confirmKeyUsage(relayCount, action, estimatedTokens, model) {
-  // Use actual model pricing when available
-  const pricePerMToken = model && /opus/i.test(model) ? 15
+  // Use actual model pricing when available (latest 2026 prices)
+  const pricePerMToken = model && /opus.*(4\.6|4\.5)/i.test(model) ? 5
+    : model && /opus/i.test(model) ? 15
+    : model && /haiku.*4\.5/i.test(model) ? 1
     : model && /haiku/i.test(model) ? 0.8
     : 3; // Sonnet as default
   const costUsd = (estimatedTokens / 1_000_000) * pricePerMToken;

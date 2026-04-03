@@ -6,16 +6,62 @@
 /** Approximate USD to CNY rate — clearly marked as approximate */
 export const USD_TO_CNY_APPROX = 7.25;
 
-/** Supported models for verification */
+/** Supported models for verification and cost calculation
+ *  Source: https://docs.anthropic.com/en/docs/about-claude/pricing (2026-04)
+ *  Prices in USD per 1M tokens
+ */
 export const SUPPORTED_MODELS = Object.freeze({
+  // ─── Claude Opus ───────────────────────────────
+  'claude-opus-4.6': {
+    name: 'Claude Opus 4.6',
+    aliases: ['opus-4.6', 'claude-opus-4-6'],
+    tier: 'flagship',
+    inputPrice: 5.0,
+    outputPrice: 25.0,
+    cacheReadPrice: 0.50,
+    cacheWrite5m: 6.25,
+    cacheWrite1h: 10.0,
+  },
+  'claude-opus-4.5': {
+    name: 'Claude Opus 4.5',
+    aliases: ['opus-4.5', 'claude-opus-4-5'],
+    tier: 'flagship',
+    inputPrice: 5.0,
+    outputPrice: 25.0,
+    cacheReadPrice: 0.50,
+    cacheWrite5m: 6.25,
+    cacheWrite1h: 10.0,
+  },
   'claude-opus-4': {
     name: 'Claude Opus 4',
     aliases: ['opus-4', 'claude-opus-4-20250514'],
-    tier: 'flagship',
-    inputPrice: 15.0,   // $ per 1M tokens
+    tier: 'flagship-legacy',
+    inputPrice: 15.0,
     outputPrice: 75.0,
-    cacheReadPrice: 1.5,
-    cacheWritePrice: 18.75,
+    cacheReadPrice: 1.50,
+    cacheWrite5m: 18.75,
+    cacheWrite1h: 30.0,
+  },
+  // ─── Claude Sonnet ─────────────────────────────
+  'claude-sonnet-4.6': {
+    name: 'Claude Sonnet 4.6',
+    aliases: ['sonnet-4.6', 'claude-sonnet-4-6'],
+    tier: 'mid',
+    inputPrice: 3.0,
+    outputPrice: 15.0,
+    cacheReadPrice: 0.30,
+    cacheWrite5m: 3.75,
+    cacheWrite1h: 6.0,
+  },
+  'claude-sonnet-4.5': {
+    name: 'Claude Sonnet 4.5',
+    aliases: ['sonnet-4.5', 'claude-sonnet-4-5'],
+    tier: 'mid',
+    inputPrice: 3.0,
+    outputPrice: 15.0,
+    cacheReadPrice: 0.30,
+    cacheWrite5m: 3.75,
+    cacheWrite1h: 6.0,
   },
   'claude-sonnet-4': {
     name: 'Claude Sonnet 4',
@@ -24,7 +70,19 @@ export const SUPPORTED_MODELS = Object.freeze({
     inputPrice: 3.0,
     outputPrice: 15.0,
     cacheReadPrice: 0.30,
-    cacheWritePrice: 3.75,
+    cacheWrite5m: 3.75,
+    cacheWrite1h: 6.0,
+  },
+  // ─── Claude Haiku ──────────────────────────────
+  'claude-haiku-4.5': {
+    name: 'Claude Haiku 4.5',
+    aliases: ['haiku-4.5', 'claude-haiku-4-5'],
+    tier: 'fast',
+    inputPrice: 1.0,
+    outputPrice: 5.0,
+    cacheReadPrice: 0.10,
+    cacheWrite5m: 1.25,
+    cacheWrite1h: 2.0,
   },
   'claude-haiku-3.5': {
     name: 'Claude 3.5 Haiku',
@@ -33,11 +91,12 @@ export const SUPPORTED_MODELS = Object.freeze({
     inputPrice: 0.80,
     outputPrice: 4.0,
     cacheReadPrice: 0.08,
-    cacheWritePrice: 1.0,
+    cacheWrite5m: 1.0,
+    cacheWrite1h: 1.6,
   },
 });
 
-/** Official Anthropic pricing (USD per 1M tokens) */
+/** Official Anthropic pricing (USD per 1M tokens) — convenience accessor */
 export const MODEL_PRICING = Object.freeze(Object.fromEntries(
   Object.entries(SUPPORTED_MODELS).map(([key, model]) => [
     key,
@@ -45,7 +104,8 @@ export const MODEL_PRICING = Object.freeze(Object.fromEntries(
       input: model.inputPrice,
       output: model.outputPrice,
       cacheRead: model.cacheReadPrice,
-      cacheWrite: model.cacheWritePrice,
+      cacheWrite: model.cacheWrite5m,  // default to 5-min cache
+      cacheWrite1h: model.cacheWrite1h,
     },
   ])
 ));

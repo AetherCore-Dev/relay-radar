@@ -121,7 +121,7 @@ export default function HomePage() {
             </div>
           </div>
           <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 16, textAlign: 'center' }}>
-            支持检测：Claude Opus 4 · Sonnet 4 · Haiku 3.5 · GPT-4o（更多持续添加）
+            支持检测：Claude Opus 4.6/4.5 · Sonnet 4.6/4.5 · Haiku 4.5/3.5 · GPT-4o（更多持续添加）
           </p>
         </section>
 

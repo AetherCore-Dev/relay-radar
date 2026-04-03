@@ -6,8 +6,13 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const MODELS = {
-  'claude-opus-4': { name: 'Claude Opus 4', input: 15, output: 75, cacheRead: 1.5, cacheWrite: 18.75 },
+  'claude-opus-4.6': { name: 'Claude Opus 4.6 (最新)', input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 },
+  'claude-opus-4.5': { name: 'Claude Opus 4.5', input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 },
+  'claude-opus-4': { name: 'Claude Opus 4 (旧版)', input: 15, output: 75, cacheRead: 1.5, cacheWrite: 18.75 },
+  'claude-sonnet-4.6': { name: 'Claude Sonnet 4.6 (最新)', input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
+  'claude-sonnet-4.5': { name: 'Claude Sonnet 4.5', input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
   'claude-sonnet-4': { name: 'Claude Sonnet 4', input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
+  'claude-haiku-4.5': { name: 'Claude Haiku 4.5', input: 1, output: 5, cacheRead: 0.1, cacheWrite: 1.25 },
   'claude-haiku-3.5': { name: 'Claude 3.5 Haiku', input: 0.8, output: 4, cacheRead: 0.08, cacheWrite: 1.0 },
 };
 
@@ -17,7 +22,7 @@ const labelStyle = { fontSize: 12, color: 'var(--text-dim)', display: 'block', m
 const inputStyle = { width: '100%', padding: '12px 14px', minHeight: '44px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 };
 
 export default function ToolsPage() {
-  const [model, setModel] = useState('claude-opus-4');
+  const [model, setModel] = useState('claude-sonnet-4.6');
   const [inputTokens, setInputTokens] = useState(100000);
   const [outputTokens, setOutputTokens] = useState(50000);
   const [daysPerMonth, setDaysPerMonth] = useState(22);

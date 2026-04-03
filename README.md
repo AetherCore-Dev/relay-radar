@@ -36,7 +36,7 @@
 
 > 独立第三方，不收集数据，不需要注册，[源码公开](https://github.com/AetherCore-Dev/relay-radar)。
 
-**支持检测**：Claude Opus 4 · Sonnet 4 · Haiku 3.5 · GPT-4o（更多模型持续添加中）
+**支持检测**：Claude Opus 4.6/4.5 · Sonnet 4.6/4.5 · Haiku 4.5/3.5 · GPT-4o（更多模型持续添加中）
 
 ## 30秒上手
 
