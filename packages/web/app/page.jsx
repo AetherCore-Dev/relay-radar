@@ -93,42 +93,49 @@ export default function HomePage() {
         </div>
 
         <section className="hero">
-          <h1>你的中转站，用的是真模型吗？</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8 }}>中转站 = 帮你转发Claude API请求的第三方服务</p>
-          <p className="hero-subtitle">我们自己掏钱买、自己测、帮你排雷</p>
+          <h1>你买的Opus，真的是Opus吗？</h1>
+          <p style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8 }}>中转站 = 帮你转发 Claude / GPT 等模型API请求的第三方服务</p>
+          <p className="hero-subtitle">独立第三方检测 · 鉴别模型真假 · 揪出多收的钱</p>
           <span className="update-badge">📅 {updatedAt} 更新 · {rankingsData.testServer}</span>
         </section>
 
         <section className="value-prop">
-          <h2>自测鉴别真伪，准确度98%</h2>
-          <p className="value-prop-sub">发正常请求就能验 · 中转站检测不到 · 数据公开透明</p>
-          <div className="value-prop-stats">
-            <div className="vp-stat">
-              <div className="vp-num">98%</div>
-              <div className="vp-label">验真准确率</div>
+          <div className="value-prop-two">
+            <div className="vp-card">
+              <div className="vp-card-icon">🔬</div>
+              <div className="vp-card-title">模型是真的吗？</div>
+              <div className="vp-card-desc">你付了Opus的钱，中转站可能给你Sonnet。我们用行为指纹检测，准确率98%。</div>
+              <div className="vp-card-detail">
+                <span className="vp-badge vp-badge-green">98% 准确率</span>
+                <span className="vp-badge">参考 <a href="https://www.usenix.org/conference/usenixsecurity25" target="_blank" rel="noopener">USENIX Security 2025</a></span>
+              </div>
             </div>
-            <div className="vp-stat">
-              <div className="vp-num">隐蔽</div>
-              <div className="vp-label">中转站无法检测</div>
-            </div>
-            <div className="vp-stat">
-              <div className="vp-num">免费</div>
-              <div className="vp-label">开源无广告</div>
+            <div className="vp-card">
+              <div className="vp-card-icon">💰</div>
+              <div className="vp-card-title">有没有多收钱？</div>
+              <div className="vp-card-desc">偷偷注入System Prompt虚增Token、缓存按原价收费。我们逐笔审计。</div>
+              <div className="vp-card-detail">
+                <span className="vp-badge vp-badge-yellow">逐笔审计</span>
+                <span className="vp-badge">参考 <a href="https://arxiv.org/abs/2410.19406" target="_blank" rel="noopener">ICLR 2025</a></span>
+              </div>
             </div>
           </div>
+          <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 16, textAlign: 'center' }}>
+            支持检测：Claude Opus 4 · Sonnet 4 · Haiku 3.5 · GPT-4o · 国产模型
+          </p>
         </section>
 
         <section style={{ padding: '20px 0' }}>
           <div className="findings-grid">
             <div className="finding-card finding-red">
               <div className="finding-icon">🚨</div>
-              <div className="finding-title">{fakeCount}/{total}家 有问题</div>
-              <div className="finding-desc">模型不是你买的那个</div>
+              <div className="finding-title">{fakeCount}/{total}家 模型造假</div>
+              <div className="finding-desc">付了Opus的钱，给的是Sonnet</div>
             </div>
             <div className="finding-card finding-yellow">
-              <div className="finding-icon">💰</div>
-              <div className="finding-title">平均贵 {avgMultiplier}%</div>
-              <div className="finding-desc">相比官方价</div>
+              <div className="finding-icon">💸</div>
+              <div className="finding-title">平均多收 {avgMultiplier}%</div>
+              <div className="finding-desc">偷偷注入Prompt、虚增Token</div>
             </div>
             <div className="finding-card finding-green">
               <div className="finding-icon">🏆</div>
@@ -274,11 +281,22 @@ export default function HomePage() {
 
         <section className="cta-section">
           <h2 style={{ fontSize: 22, marginBottom: 8 }}>想验一下你的中转站？</h2>
-          <p style={{ color: 'var(--text-dim)', marginBottom: 20, fontSize: 14 }}>一行命令，不需要注册</p>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 20px', display: 'inline-block', fontFamily: 'monospace', fontSize: 14 }}>
-            npx relay-radar monitor
+          <p style={{ color: 'var(--text-dim)', marginBottom: 20, fontSize: 14 }}>一行命令，不需要注册，几分钟出结果</p>
+          <div className="cta-methods">
+            <div className="cta-method">
+              <div className="cta-method-badge" style={{ color: 'var(--green)' }}>⭐ 推荐</div>
+              <div style={{ fontFamily: 'monospace', fontSize: 14, background: 'var(--bg)', padding: '8px 14px', borderRadius: 6, margin: '8px 0' }}>npx relay-radar monitor</div>
+              <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>在你正常使用Claude Code的过程中完成检测</div>
+              <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>不影响工作流 · 约6,000 tokens ≈ ¥0.2</div>
+            </div>
+            <div className="cta-method">
+              <div className="cta-method-badge">快速检测</div>
+              <div style={{ fontFamily: 'monospace', fontSize: 14, background: 'var(--bg)', padding: '8px 14px', borderRadius: 6, margin: '8px 0' }}>npx relay-radar verify</div>
+              <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>发送8个专业检测题，几分钟出结果</div>
+              <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>约4,000 tokens ≈ ¥0.15</div>
+            </div>
           </div>
-          <div style={{ marginTop: 16, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ marginTop: 20, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="https://github.com/AetherCore-Dev/relay-radar" target="_blank" rel="noopener" className="cta-btn cta-primary">GitHub →</a>
             <Link href="/tools/" className="cta-btn cta-secondary">算一笔账</Link>
           </div>
