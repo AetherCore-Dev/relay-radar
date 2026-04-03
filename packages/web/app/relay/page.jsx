@@ -227,7 +227,11 @@ function RelayDetailContent() {
 
 export default function RelayDetailPage() {
   return (
-    <Suspense fallback={<div className="container" style={{ padding: '80px 0', textAlign: 'center' }}>加载中...</div>}>
+    <Suspense fallback={
+      <div style={{ textAlign: 'center', padding: '80px 20px', color: 'var(--text-dim)' }}>
+        <p style={{ fontSize: 16 }}>⏳ 加载中...</p>
+      </div>
+    }>
       <RelayDetailContent />
     </Suspense>
   );

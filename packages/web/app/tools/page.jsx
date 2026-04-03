@@ -14,7 +14,7 @@ const MODELS = {
 const CNY_RATE = 7.25;
 
 const labelStyle = { fontSize: 12, color: 'var(--text-dim)', display: 'block', marginBottom: 4 };
-const inputStyle = { width: '100%', padding: '10px 12px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 };
+const inputStyle = { width: '100%', padding: '12px 14px', minHeight: '44px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 };
 
 export default function ToolsPage() {
   const [model, setModel] = useState('claude-opus-4');
@@ -51,7 +51,7 @@ export default function ToolsPage() {
             <div>
               <label style={labelStyle}>模型</label>
               <select value={model} onChange={(e) => setModel(e.target.value)}
-                style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 }}>
+                style={{ width: '100%', padding: '12px 14px', minHeight: '44px', background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14 }}>
                 {Object.entries(MODELS).map(([k, v]) => (
                   <option key={k} value={k}>{v.name} (${v.input}/${v.output} per M)</option>
                 ))}

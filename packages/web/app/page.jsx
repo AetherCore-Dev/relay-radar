@@ -88,8 +88,13 @@ export default function HomePage() {
       <Header />
 
       <main className="container">
+        <div className="demo-banner" style={{ background: 'rgba(249,115,22,0.12)', borderColor: 'var(--orange)' }}>
+          <strong>🚧 演示数据</strong> — 下面的排名是示例，不是真实测试结果。真实数据即将发布。
+        </div>
+
         <section className="hero">
           <h1>你的中转站，用的是真模型吗？</h1>
+          <p style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8 }}>中转站 = 帮你转发Claude API请求的第三方服务</p>
           <p className="hero-subtitle">我们自己掏钱买、自己测、帮你排雷</p>
           <span className="update-badge">📅 {updatedAt} 更新 · {rankingsData.testServer}</span>
         </section>
@@ -108,7 +113,7 @@ export default function HomePage() {
             </div>
             <div className="vp-stat">
               <div className="vp-num">免费</div>
-              <div className="vp-label">开源MIT协议</div>
+              <div className="vp-label">开源无广告</div>
             </div>
           </div>
         </section>
@@ -132,11 +137,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        <div className="demo-banner">
-          <strong>📋 演示数据</strong> — 以下为系统功能演示，非真实中转站排名。
-          真实评测数据即将上线，您也可以运行 <code>npx relay-radar rank</code> 评测自己的中转站。
-        </div>
 
         <div className="ranking-table-wrap">
           <table className="ranking-table">
@@ -269,6 +269,18 @@ export default function HomePage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="cta-section">
+          <h2 style={{ fontSize: 22, marginBottom: 8 }}>想验一下你的中转站？</h2>
+          <p style={{ color: 'var(--text-dim)', marginBottom: 20, fontSize: 14 }}>一行命令，不需要注册</p>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 20px', display: 'inline-block', fontFamily: 'monospace', fontSize: 14 }}>
+            npx relay-radar monitor
+          </div>
+          <div style={{ marginTop: 16, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="https://github.com/AetherCore-Dev/relay-radar" target="_blank" rel="noopener" className="cta-btn cta-primary">GitHub →</a>
+            <Link href="/tools/" className="cta-btn cta-secondary">算一笔账</Link>
           </div>
         </section>
       </main>

@@ -402,6 +402,26 @@ a:hover { text-decoration: underline; }
   gap: 12px;
 }
 
+/* CTA section */
+.cta-section {
+  text-align: center;
+  padding: 48px 0 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+.cta-btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.cta-btn:hover { opacity: 0.85; text-decoration: none; }
+.cta-primary { background: var(--accent); color: white; }
+.cta-secondary { border: 1px solid var(--border); color: var(--text-dim); }
+
 /* ─── Mobile: Tablet ─── */
 @media (max-width: 768px) {
   .hero h1 { font-size: 24px; }
@@ -422,7 +442,7 @@ a:hover { text-decoration: underline; }
   .hero p { font-size: 13px; }
   .container { padding: 0 12px; }
   .header-nav { gap: 12px; }
-  .header-nav a { font-size: 13px; }
+  .header-nav a { font-size: 12px; }
   .ranking-row td { padding: 10px 6px; }
   .score-overall { font-size: 18px; }
   .radar-grid { grid-template-columns: 1fr; }
@@ -436,7 +456,7 @@ a:hover { text-decoration: underline; }
 /* ─── Mobile: Small Phone ─── */
 @media (max-width: 360px) {
   .header-logo { font-size: 15px; }
-  .header-nav { gap: 8px; }
+  .header-nav { gap: 6px; }
   .header-nav a { font-size: 12px; }
   .ranking-table { font-size: 11px; }
   .mini-rankings-grid { grid-template-columns: 1fr; }
