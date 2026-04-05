@@ -51,6 +51,7 @@ const COMMANDS = {
   monitor: runMonitor,
   rank:    runRank,
   // Utility
+  optimize: runOptimize,
   init:    runInit,
   help:    runHelp,
 };
@@ -595,6 +596,112 @@ async function runRank(args) {
 
 // ─── Utility Commands ────────────────────────────────────────────────────────
 
+async function runOptimize() {
+  const { scanProject, generateClaudeIgnore, generateClaudeMd, generateEnvRecommendations } = await importCore();
+
+  const targetDir = resolve(process.argv[3] || '.');
+  console.log('');
+  console.log('🚀 RelayRadar Optimize — 一键省Token');
+  console.log('');
+  console.log('  原理：AI工具每次对话都会扫描你的项目文件。');
+  console.log('  node_modules有几万个文件、lock文件有几万行——AI全都读进去，白花钱。');
+  console.log('  这个命令帮你生成配置，告诉AI"哪些不用看"。');
+  console.log('');
+  console.log(`  📂 扫描目录: ${targetDir}`);
+  console.log('');
+
+  // Scan
+  const scan = await scanProject(targetDir);
+
+  // Report
+  console.log(`  📊 扫描结果:`);
+  console.log(`     文件: ${scan.totalFiles.toLocaleString()} 个`);
+  console.log(`     目录: ${scan.totalDirs.toLocaleString()} 个`);
+  if (scan.framework) console.log(`     框架: ${scan.framework}`);
+
+  const topLangs = Object.entries(scan.languages).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  if (topLangs.length) {
+    console.log(`     语言: ${topLangs.map(([e, n]) => `${e}(${n})`).join(', ')}`);
+  }
+
+  if (scan.bigFiles.length > 0) {
+    console.log(`     大文件(>100KB): ${scan.bigFiles.length} 个`);
+  }
+
+  console.log('');
+
+  // Check existing configs
+  const created = [];
+  const skipped = [];
+
+  // 1. .claudeignore
+  if (scan.hasClaudeIgnore) {
+    skipped.push('.claudeignore（已存在）');
+  } else {
+    const content = generateClaudeIgnore(scan);
+    await writeFile(join(targetDir, '.claudeignore'), content);
+    created.push('.claudeignore');
+  }
+
+  // 2. .cursorignore (same content, for Cursor users)
+  if (scan.hasCursorIgnore) {
+    skipped.push('.cursorignore（已存在）');
+  } else {
+    const content = generateClaudeIgnore(scan);
+    await writeFile(join(targetDir, '.cursorignore'), content);
+    created.push('.cursorignore');
+  }
+
+  // 3. CLAUDE.md
+  if (scan.hasClaudeMd) {
+    skipped.push('CLAUDE.md（已存在）');
+  } else {
+    const content = generateClaudeMd(scan);
+    await writeFile(join(targetDir, 'CLAUDE.md'), content);
+    created.push('CLAUDE.md');
+  }
+
+  // Output results
+  console.log('  ✅ 生成的文件:');
+  for (const f of created) {
+    console.log(`     📄 ${f}`);
+  }
+  if (skipped.length) {
+    console.log('');
+    console.log('  ⏭️  跳过（已存在）:');
+    for (const f of skipped) {
+      console.log(`     ${f}`);
+    }
+  }
+
+  // 4. Environment variable recommendations
+  const envRecs = generateEnvRecommendations();
+  console.log('');
+  console.log('  💡 推荐设置这些环境变量（加到你的 ~/.bashrc 或 ~/.zshrc）:');
+  console.log('');
+  for (const rec of envRecs) {
+    console.log(`     export ${rec.key}=${rec.value}`);
+    console.log(`     # ${rec.effect}。${rec.note}`);
+    console.log('');
+  }
+
+  // 5. Estimated effect
+  const beforeK = Math.round(scan.estimatedTokensBefore / 1000);
+  const afterK = Math.round(scan.estimatedTokensAfter / 1000);
+  const savedPct = beforeK > 0 ? Math.round((1 - afterK / beforeK) * 100) : 0;
+
+  console.log('  📊 预计效果:');
+  console.log(`     优化前: 每次对话约 ${beforeK.toLocaleString()}K tokens`);
+  console.log(`     优化后: 每次对话约 ${afterK.toLocaleString()}K tokens`);
+  if (savedPct > 0) {
+    console.log(`     节省:   ~${savedPct}%`);
+  }
+  console.log('');
+  console.log('  兼容: Claude Code · Cursor · GitHub Copilot · Windsurf');
+  console.log('  提示: 生成的文件可以提交到Git，团队成员都能受益。');
+  console.log('');
+}
+
 async function runInit() {
   const sample = {
     relays: [
@@ -662,6 +769,12 @@ function runHelp() {
 
   relay-radar probe        测延迟
   relay-radar rank         综合排名
+
+━━ 省钱工具 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  relay-radar optimize ⭐  一键生成省Token配置（推荐！）
+                           生成 .claudeignore + CLAUDE.md
+                           兼容 Claude Code / Cursor / Copilot
 
 ━━ 从零开始，3步搞定 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

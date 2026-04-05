@@ -41,17 +41,34 @@
 ## 30秒上手
 
 ```bash
+# ⭐ 一键省Token（在你的项目根目录运行）
+npx relay-radar optimize
+
 # 看看你花了多少钱（扫描本地日志，不联网）
 npx relay-radar scan
 
 # 省钱技巧
 npx relay-radar tips
-
-# 算一笔账：10万输入 + 5万输出，Opus要多少钱？
-npx relay-radar cost claude-opus-4 100000 50000
 ```
 
 以上命令**不需要API Key**，复制粘贴就能跑。
+
+### `optimize` 做了什么？
+
+```
+你的项目有 node_modules (几万个文件)、package-lock.json (几万行)、
+dist/, .next/, 图片, 日志... AI工具每次对话都会扫描这些文件。
+
+它们对AI毫无用处，但你在为它们付Token的钱。
+
+optimize 命令帮你生成：
+  .claudeignore  — 告诉AI"这些文件不用看"（和.gitignore一样的语法）
+  .cursorignore  — 同样的配置，给Cursor用
+  CLAUDE.md      — 告诉AI"项目长这样"，不用自己摸索
+
+效果：每次对话减少 40-60% 的Token消耗。
+兼容：Claude Code / Cursor / GitHub Copilot / Windsurf。
+```
 
 > `scan` 会读取本地 Claude Code 的使用日志。如果你还没用过 Claude Code，先试试 `tips` 或 `cost`。
 
@@ -110,11 +127,12 @@ npx relay-radar monitor
 
 | 命令 | 做什么 | 要Key吗 |
 |------|--------|:-------:|
+| `optimize` ⭐ | 一键生成省Token配置 | 不要 |
 | `scan` | 看你花了多少 | 不要 |
 | `tips` | 省钱技巧 | 不要 |
 | `cost` | 算Token多少钱 | 不要 |
 | `ping` | 测能不能连上 | 不要 |
-| `monitor` ⭐ | 检测模型真假（不影响工作流） | 要 |
+| `monitor` | 检测模型真假（不影响工作流） | 要 |
 | `verify` | 快速检测（几分钟出结果） | 要 |
 | `probe` | 测延迟 | 要 |
 | `rank` | 综合排名 | 要 |

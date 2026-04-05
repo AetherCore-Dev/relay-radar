@@ -17,6 +17,9 @@ export { RelayRanker } from './ranker/index.mjs';
 // Configuration
 export { RelayConfig } from './config.mjs';
 
+// Optimizer (zero-key, scans local project)
+export { scanProject, generateClaudeIgnore, generateClaudeMd, generateEnvRecommendations } from './optimizer/index.mjs';
+
 // Shared utilities
 export {
   detectFormat,
