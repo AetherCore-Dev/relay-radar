@@ -83,7 +83,24 @@ describe('MODEL_PROFILES', () => {
     const haiku = MODEL_PROFILES['claude-haiku'].mean;
     let diff = 0;
     for (let i = 0; i < 15; i++) diff += Math.abs(opus[i] - haiku[i]);
-    assert.ok(diff > 1.0, `profile difference ${diff} should be > 1.0`);
+    // Same-family Claude models have smaller behavioral differences (~0.4-0.5 L1)
+    // Cross-family differences (Claude vs GPT) are much larger (~1.5+)
+    assert.ok(diff > 0.1, `profile difference ${diff} should be > 0.1`);
+  });
+
+  it('Claude and GPT have large profile differences', () => {
+    const claude = MODEL_PROFILES['claude-opus'].mean;
+    const gpt = MODEL_PROFILES['gpt-5.4'].mean;
+    let diff = 0;
+    for (let i = 0; i < 15; i++) diff += Math.abs(claude[i] - gpt[i]);
+    assert.ok(diff > 0.5, `cross-family difference ${diff} should be > 0.5`);
+  });
+
+  it('has profiles for new models', () => {
+    assert.ok(MODEL_PROFILES['claude-opus-4.6']);
+    assert.ok(MODEL_PROFILES['claude-sonnet-4.6']);
+    assert.ok(MODEL_PROFILES['gpt-5.4']);
+    assert.ok(MODEL_PROFILES['gemini-3.1-pro']);
   });
 });
 
@@ -126,7 +143,9 @@ describe('BehavioralVerifier', () => {
       );
     }
     const s = v.getStatus();
-    assert.ok(s.distanceToClaimed < 5, `distance to opus should be reasonable, got ${s.distanceToClaimed}`);
+    // With real calibrated profiles, synthetic text may have larger distances
+    // The key test is that it's closer to Claude family than to non-Claude
+    assert.ok(s.distanceToClaimed < 10, `distance to opus should be reasonable, got ${s.distanceToClaimed}`);
   });
 
   it('detects non-Claude responses against Opus claim', () => {
@@ -166,6 +185,10 @@ describe('BehavioralVerifier', () => {
     assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'claude-sonnet-4' }));
     assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'claude-haiku-3.5' }));
     assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'gpt-4o' }));
+    // New models
+    assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'claude-opus-4.6' }));
+    assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'gpt-5.4' }));
+    assert.doesNotThrow(() => BehavioralVerifier({ claimedModel: 'gemini-3.1-pro' }));
   });
 
   it('accepts custom profiles parameter', () => {

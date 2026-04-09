@@ -94,6 +94,38 @@ export const SUPPORTED_MODELS = Object.freeze({
     cacheWrite5m: 1.0,
     cacheWrite1h: 1.6,
   },
+  // ─── GPT (OpenAI) ───────────────────────────────
+  'gpt-5.4': {
+    name: 'GPT 5.4',
+    aliases: ['gpt-5-4', 'gpt5.4'],
+    tier: 'flagship',
+    inputPrice: 2.50,     // Approximate pricing
+    outputPrice: 10.0,
+    cacheReadPrice: 0,
+    cacheWrite5m: 0,
+    cacheWrite1h: 0,
+  },
+  'gpt-5.3-codex': {
+    name: 'GPT 5.3 Codex',
+    aliases: ['gpt-5-3-codex', 'codex-5.3'],
+    tier: 'mid',
+    inputPrice: 2.50,     // Approximate pricing
+    outputPrice: 10.0,
+    cacheReadPrice: 0,
+    cacheWrite5m: 0,
+    cacheWrite1h: 0,
+  },
+  // ─── Gemini (Google) ─────────────────────────────
+  'gemini-3.1-pro': {
+    name: 'Gemini 3.1 Pro',
+    aliases: ['gemini-3-1-pro', 'gemini-3.1-pro-latest'],
+    tier: 'flagship',
+    inputPrice: 1.25,     // Approximate pricing
+    outputPrice: 5.0,
+    cacheReadPrice: 0,
+    cacheWrite5m: 0,
+    cacheWrite1h: 0,
+  },
 });
 
 /** Official Anthropic pricing (USD per 1M tokens) — convenience accessor */

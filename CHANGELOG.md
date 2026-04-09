@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2026-04-09
+
+### 🔬 真实模型行为指纹校准
+
+#### 新增
+- **CodeBuddy 校准脚本** (`scripts/calibrate-codebuddy.mjs`) — 通过 CodeBuddy API 采集真实模型响应
+  - 支持 streaming 模式（CodeBuddy 要求）
+  - Welford 在线统计算法计算 15 维行为特征的 mean/std
+  - 自动计算模型间距离验证区分度
+  - 支持 `--models`, `--prompts`, `--rounds` 参数
+- **API 探测脚本** (`scripts/probe-codebuddy.mjs`) — 自动发现可用端点和模型 ID
+- **CLAUDE.md** — Claude Code 开发指南
+
+#### 真实指纹数据（8 个模型，780 个真实 API 响应）
+- **Claude Opus 4.6** — 88 个有效样本
+- **Claude Opus 4.5** — 100 个有效样本
+- **Claude Sonnet 4.6** — 100 个有效样本
+- **Claude Sonnet 4.5** — 100 个有效样本
+- **Claude Haiku 4.5** — 100 个有效样本
+- **GPT 5.4** — 94 个有效样本
+- **GPT 5.3 Codex** — 99 个有效样本
+- **Gemini 3.1 Pro** — 99 个有效样本
+
+#### 变更
+- `profiles.mjs` — 用真实校准数据替换手动估算值，新增 8 个模型 profile + 5 个向后兼容别名
+- `profiles.json` — 写入完整 version 2 校准数据
+- `constants.mjs` — 新增 GPT 5.4、GPT 5.3 Codex、Gemini 3.1 Pro 模型定义
+- `monitor.mjs` — `resolveProfileKey()` 支持版本号精确匹配（如 opus-4.6 vs opus-4.5）
+- `behavioral.test.mjs` — 适配真实数据阈值，新增跨家族距离测试和新模型解析测试
+
+#### 跨家族区分度
+- Claude ↔ GPT: **0.61–0.92** ✅
+- Claude ↔ Gemini: **3.12–3.47** ✅
+- GPT ↔ Gemini: **1.76–2.02** ✅
+- 同家族内（Claude 各版本）: 0.07–0.28（天然相似）
+
 ## [0.3.0] - 2026-04-02
 
 ### 🌐 Phase 2 + Phase 3 — 排名网站 + CI/CD

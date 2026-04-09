@@ -278,11 +278,24 @@ function buildMessage(verdict, claimed, best, confidence, n, alert) {
 
 function resolveProfileKey(modelName) {
   const lower = (modelName ?? '').toLowerCase();
+  // Claude — match specific versions first, then fallback to family aliases
+  if (lower.includes('opus') && lower.includes('4.6')) return 'claude-opus-4.6';
+  if (lower.includes('opus') && lower.includes('4.5')) return 'claude-opus-4.5';
   if (lower.includes('opus')) return 'claude-opus';
+  if (lower.includes('sonnet') && lower.includes('4.6')) return 'claude-sonnet-4.6';
+  if (lower.includes('sonnet') && lower.includes('4.5')) return 'claude-sonnet-4.5';
   if (lower.includes('sonnet')) return 'claude-sonnet';
+  if (lower.includes('haiku') && lower.includes('4.5')) return 'claude-haiku-4.5';
   if (lower.includes('haiku')) return 'claude-haiku';
+  // GPT
+  if (lower.includes('gpt-5.4') || lower.includes('gpt5.4')) return 'gpt-5.4';
+  if (lower.includes('gpt-5.3-codex') || lower.includes('codex-5.3')) return 'gpt-5.3-codex';
   if (lower.includes('gpt-4o') || lower.includes('gpt4o')) return 'gpt-4o';
-  if (lower.includes('gpt')) return 'gpt-4o';
+  if (lower.includes('gpt')) return 'gpt-5.4';
+  // Gemini
+  if (lower.includes('gemini-3.1-pro') || lower.includes('gemini-3-1-pro')) return 'gemini-3.1-pro';
+  if (lower.includes('gemini')) return 'gemini-3.1-pro';
+  // Domestic
   if (lower.includes('qwen') || lower.includes('deepseek') || lower.includes('glm')) return 'domestic';
   // Default to claude-sonnet but warn — caller may be using an unknown model
   return 'claude-sonnet';
