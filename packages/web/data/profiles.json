@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "calibratedAt": "2026-05-04T06:21:50.348Z",
+  "calibratedAt": "2026-05-11T06:49:25.910Z",
   "tool": "relay-radar/calibrate",
   "sampleSize": 100,
   "dryRun": false,
