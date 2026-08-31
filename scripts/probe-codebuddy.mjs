@@ -5,7 +5,8 @@
  * Tries multiple URL patterns: /v1, /v2, /v3
  */
 
-const API_KEY = process.env.CODEBUDDY_API_KEY || 'ck_fihh84bamfwg.ehWZ2Xy6mEbVfkdiCznbESzPl0SDeXWAmKTn0b0gAaI';
+const API_KEY = process.env.CODEBUDDY_API_KEY;
+if (!API_KEY) { console.error('Error: CODEBUDDY_API_KEY environment variable is required.'); process.exit(1); }
 const TIMEOUT = 15000;
 
 // ─── All candidate endpoints ──────────────────────────────────────────────
