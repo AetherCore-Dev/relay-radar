@@ -34,7 +34,8 @@ async function importCore() {
 
 // ─── Configuration ──────────────────────────────────────────────────────────
 
-const API_KEY = process.env.CODEBUDDY_API_KEY || 'ck_fihh84bamfwg.ehWZ2Xy6mEbVfkdiCznbESzPl0SDeXWAmKTn0b0gAaI';
+const API_KEY = process.env.CODEBUDDY_API_KEY;
+if (!API_KEY) { console.error('Error: CODEBUDDY_API_KEY environment variable is required.'); process.exit(1); }
 const API_URL = 'https://www.codebuddy.cn/v2/chat/completions';
 
 const MODEL_CONFIGS = Object.freeze({
